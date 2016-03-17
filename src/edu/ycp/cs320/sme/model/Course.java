@@ -14,6 +14,7 @@ public class Course {
 	private int courseNum;
 	private int credits;
 	private Subject subject;
+	private int adr;
 	
 	private int CRN;
 	private int currSeats =0, maxSeats;
@@ -29,7 +30,9 @@ public class Course {
 		ITL,LAT,RUS,SPN,LIT,MGT,MKT,MAT,MUS,NM,NUR,PHL,PE,PSC,PHY,PS,PMD,PSY,QBA,RAD,
 		REC,REL,RT,SOC,SPM,SCM,SES,THE,WGS,FCO,WRT
 	}
-	
+	public int getAdr(){
+		return this.adr;
+	}
 	public int getStartTimeH() {
 		return startTimeH;
 	}
@@ -124,5 +127,14 @@ public class Course {
 		}
 		
 		return true;
+	}
+	
+	//comparator using course number and subject
+	public boolean equals(Course one, Course two){
+		if(one.getCourseNum() == two.getCourseNum() && one.getSubject() == two.getSubject()){
+			return true;
+		}
+		
+		return false;
 	}
 }

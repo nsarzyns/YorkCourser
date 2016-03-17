@@ -58,6 +58,4 @@ public class Student extends User{
 	public void setTotalCredits(int totalCredits) {
 		this.totalCredits = totalCredits;
 	}
-	
-	
 }

@@ -39,7 +39,4 @@ public class Schedule {
 	public void update(){
 		throw new UnsupportedOperationException(":TODO make me work");
 	}
-	
-	
-
 }
