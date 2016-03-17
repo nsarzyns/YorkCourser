@@ -1,4 +1,4 @@
-package edu.ycp.cs320.lab11.servlet;
+package edu.ycp.cs320.sme.servlet;
 
 import java.io.IOException;
 
@@ -31,7 +31,7 @@ public class SscheduleView extends HttpServlet {
     try {
       int User = getIntFromParameter(req.getParameter("student_id"));
 
-      if (user == null) {
+      if (User <0) {
         errorMessage = "Please specify an actual student id";
       } else {
         SscheduleViewControl controller = new SscheduleViewControl();
