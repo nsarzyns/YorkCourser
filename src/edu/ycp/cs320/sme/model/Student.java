@@ -1,5 +1,6 @@
 package edu.ycp.cs320.sme.model;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -8,10 +9,10 @@ public class Student extends User{
 	//set of all passed classes (and classes currently being taken)
 	private Set<Course> transcript;
 	//Limit how many schedules a user can have or else algorithm will get out of hand
-	private List<Schedule> scheduleList;
+	private LinkedList<Schedule> scheduleList = new LinkedList<Schedule>();
 	private Schedule selectedSchedule;
 	//TODO Is course override by CRN? If so turn this into List of CRN's
-	private List<Course> coursesOverrode;
+	private LinkedList<Course> coursesOverrode= new LinkedList<Course>();
 	
 	private String major;
 
@@ -43,7 +44,7 @@ public class Student extends User{
 	public void setSelectedSchedule(Schedule selectedSchedule) {
 		this.selectedSchedule = selectedSchedule;
 	}
-	public void setCoursesOverrode(List<Course> coursesOverrode) {
+	public void setCoursesOverrode(LinkedList<Course> coursesOverrode) {
 		this.coursesOverrode = coursesOverrode;
 	}
 	public void overrideClass(Course c){

@@ -26,6 +26,10 @@ public class Course {
 	private Set<Course> prereqs;
 	private Set<Student> students = new HashSet<Student>();
 	
+	public Course(){
+		days = new char[7];
+	}
+	
 	public enum Subject {
 		ACC,ANT,ART,BEH,BIO,BUS,CHM,MLS,CM,CS,CJA,ESS,ECO,EDU,ECH,MLE,SE,SPE,EGR,
 		ECE,ME,ENT,FLM,FIN,FYS,FCM,G,GER,HIS,HSP,HSV,HUM,IFS,IA,IBS,INT,FRN,GRM,
@@ -81,7 +85,7 @@ public class Course {
 		this.days = days;
 	}
 	public void setDay(String day,int idx) {
-		if(day != null){
+		if(day != null && !day.equals("")){
 			days[idx] = day.charAt(0);
 		}
 	}

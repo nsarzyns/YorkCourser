@@ -20,9 +20,11 @@ public class SscheduleViewControl {
 	 * firstClasstime(schedule)
 	 * lastClasstime(schedule)
 	 */
-	private Student student;
+	private Student student = new Student();
 	
 	public SscheduleViewControl(File f){
+		student.setName("John Smith");
+		student.setEmail("coolBeans@ycp.edu");
 		//initialize this new "student"
 		Schedule sched = new Schedule();
 		//sched.setLastModified(new Date());
@@ -74,7 +76,7 @@ public class SscheduleViewControl {
 	}
 
 	
-	public User fetchUser(int i){
+	public Student fetchStudent(int i){
 		//TODO: change this to work with actual users from DB in future
 		return student;
 	}

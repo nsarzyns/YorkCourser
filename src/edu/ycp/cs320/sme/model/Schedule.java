@@ -1,19 +1,19 @@
 package edu.ycp.cs320.sme.model;
 
 import java.util.Date;
-import java.util.Set;
+import java.util.LinkedList;
 
 public class Schedule {
 	private String name;
 	private String semester;
-	private Set<Course> courseList;
+	private LinkedList<Course> courseList = new LinkedList<Course>();
 	private Date lastModified;
 
 	public String getName() {
 		return name;
 	}
 
-	public Set<Course> getCourseList() {
+	public LinkedList<Course> getCourseList() {
 		return courseList;
 	}
 
@@ -33,7 +33,7 @@ public class Schedule {
 		this.lastModified = lastModified;
 	}
 
-	public void setCourseList(Set<Course> courseList) {
+	public void setCourseList(LinkedList<Course> courseList) {
 		this.courseList = courseList;
 	}
 
