@@ -9,16 +9,18 @@ public class Course {
 	//time <hour(0-23), minute>
 	private int startTimeH,startTimeM;
 	private int finTimeH,finTimeM;
-	//TODO represent days of the week course takes place Mon-Fri
+	//represent days of the week course takes place Mon(0)-Sun(6)
+	private char[] days;
 	//A must for all courses 
-	private int courseNum;
+	private String title;
+	private String courseNum;
 	private int credits;
 	private Subject subject;
 	private int adr;
 	
 	private int CRN;
 	private int currSeats =0, maxSeats;
-	private int roomNum;
+	private String roomNum;
 	private Teacher instructor;
 	//TODO set this up properly
 	private Set<Course> prereqs;
@@ -51,7 +53,7 @@ public class Course {
 	public int getMaxSeats() {
 		return maxSeats;
 	}
-	public int getRoomNum() {
+	public String getRoom() {
 		return roomNum;
 	}
 	public int getCredits() {
@@ -66,10 +68,30 @@ public class Course {
 	public int getCRN() {
 		return CRN;
 	}
-	public int getCourseNum() {
+	public String getCourseNum() {
 		return courseNum;
 	}
-	public void setCourseNum(int courseNum) {
+	public String getTitle() {
+		return title;
+	}
+	public char[] getDays() {
+		return days;
+	}
+	public void setDays(char[] days) {
+		this.days = days;
+	}
+	public void setDay(String day,int idx) {
+		if(day != null){
+			days[idx] = day.charAt(0);
+		}
+	}
+	public void setAdr(int adr){
+		this.adr = adr;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public void setCourseNum(String courseNum) {
 		this.courseNum = courseNum;
 	}
 	public void setCRN(int cRN) {
@@ -84,7 +106,7 @@ public class Course {
 	public void setCredits(int credits) {
 		this.credits = credits;
 	}
-	public void setRoomNum(int roomNum) {
+	public void setRoom(String roomNum) {
 		this.roomNum = roomNum;
 	}
 	public void setMaxSeats(int maxSeats) {

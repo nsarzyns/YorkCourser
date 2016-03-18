@@ -30,6 +30,9 @@ public class Student extends User{
 		//A schedule by this name does not exist
 		return null;
 	}
+	public void addSchedule(Schedule s){
+		scheduleList.add(s);
+	}
 	public List<Course> getCoursesOverrode() {
 		return coursesOverrode;
 	}

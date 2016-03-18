@@ -5,6 +5,7 @@ import java.util.Set;
 
 public class Schedule {
 	private String name;
+	private String semester;
 	private Set<Course> courseList;
 	private Date lastModified;
 
@@ -18,6 +19,14 @@ public class Schedule {
 
 	public Date getLastModified() {
 		return lastModified;
+	}
+
+	public String getSemester() {
+		return semester;
+	}
+
+	public void setSemester(String semester) {
+		this.semester = semester;
 	}
 
 	public void setLastModified(Date lastModified) {

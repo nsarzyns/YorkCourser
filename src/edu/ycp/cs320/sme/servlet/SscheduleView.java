@@ -1,5 +1,6 @@
 package edu.ycp.cs320.sme.servlet;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -27,14 +28,13 @@ public class SscheduleView extends HttpServlet {
     String errorMessage = null;
     User user = null;
     
-    
     try {
       int User = getIntFromParameter(req.getParameter("student_id"));
 
       if (User <0) {
         errorMessage = "Please specify an actual student id";
       } else {
-        SscheduleViewControl controller = new SscheduleViewControl();
+        SscheduleViewControl controller = new SscheduleViewControl(new File("./war/Student_test.csv"));
         user = controller.fetchUser(User);
       }
     } catch (NumberFormatException e) {
