@@ -1,7 +1,7 @@
 package edu.ycp.cs320.sme.controller;
 
-import edu.ycp.cs320.sme.model.Model;
 import edu.ycp.cs320.sme.model.Course;
+import edu.ycp.cs320.sme.model.Student;
 import edu.ycp.cs320.sme.model.User;
 
 public class SscheduleViewControl {
@@ -10,10 +10,10 @@ public class SscheduleViewControl {
 	 * firstClasstime(schedule)
 	 * lastClasstime(schedule)
 	 */
-	private Model model;
+	Student student;
 	
 	public SscheduleViewControl(){
-		this.model = new Model();
+		
 	}
 	
 	public void setModel(Model newModel){
