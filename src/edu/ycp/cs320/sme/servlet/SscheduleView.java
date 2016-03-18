@@ -49,7 +49,7 @@ public class SscheduleView extends HttpServlet {
     req.setAttribute("user", user);
 
     // Forward to view to render the result HTML document
-    req.getRequestDispatcher("/_view/addNumbers.jsp").forward(req, resp);
+    req.getRequestDispatcher("/_view/SscheduleView.jsp").forward(req, resp);
   }
 
   private int getIntFromParameter(String s) {
