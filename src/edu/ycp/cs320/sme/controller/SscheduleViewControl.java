@@ -12,7 +12,6 @@ import edu.ycp.cs320.sme.model.Course.Subject;
 import edu.ycp.cs320.sme.model.Schedule;
 import edu.ycp.cs320.sme.model.Student;
 import edu.ycp.cs320.sme.model.Teacher;
-import edu.ycp.cs320.sme.model.User;
 
 public class SscheduleViewControl {
 	/*TODO methods: fetch student from ID

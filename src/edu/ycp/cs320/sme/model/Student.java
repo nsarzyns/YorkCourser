@@ -14,7 +14,7 @@ public class Student extends User{
 	//TODO Is course override by CRN? If so turn this into List of CRN's
 	private LinkedList<Course> coursesOverrode= new LinkedList<Course>();
 	
-	private String major;
+	//private String major;
 
 	public int getTotalCredits() {
 		return totalCredits;
