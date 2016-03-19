@@ -23,7 +23,7 @@ public class Course {
 	private String roomNum;
 	private Teacher instructor;
 	//TODO set this up properly
-	private Set<Course> prereqs;
+	//private Set<Course> p;
 	private Set<Student> students = new HashSet<Student>();
 	
 	public Course(){

@@ -35,9 +35,6 @@ public class SscheduleView extends HttpServlet {
 
 	    // Forward to view to render the result HTML document
 	    req.getRequestDispatcher("/_view/SscheduleView.jsp").forward(req, resp);
-	  
-	  
-    req.getRequestDispatcher("/_view/SscheduleView.jsp").forward(req, resp);
   }
 
   @Override
