@@ -54,7 +54,6 @@ public class SscheduleViewControl {
 	            	c.setDay(tokens[14], 6);
 	            	//Make instructor a new teacher
 	            	String inst = tokens[15] + tokens[16];
-	                System.out.println(inst);
 	                Teacher t = new Teacher();
 	                t.setName(inst);
 	                c.setInstructor(t);
