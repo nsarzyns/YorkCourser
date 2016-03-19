@@ -34,10 +34,10 @@ public class SscheduleEdit extends HttpServlet {
 	    req.setAttribute("courseList", courses);
 
 	    // Forward to view to render the result HTML document
-	    req.getRequestDispatcher("/_view/SscheduleView.jsp").forward(req, resp);
+	    req.getRequestDispatcher("/_view/SscheduleEdit.jsp").forward(req, resp);
 	  
 	  
-  req.getRequestDispatcher("/_view/SscheduleView.jsp").forward(req, resp);
+  req.getRequestDispatcher("/_view/SscheduleEdit.jsp").forward(req, resp);
 }
 
 @Override
@@ -69,7 +69,7 @@ protected void doPost(HttpServletRequest req, HttpServletResponse resp)
   req.setAttribute("user", user);
 
   // Forward to view to render the result HTML document
-  req.getRequestDispatcher("/_view/SscheduleView.jsp").forward(req, resp);
+  req.getRequestDispatcher("/_view/SscheduleEdit.jsp").forward(req, resp);
 }
 
 private int getIntFromParameter(String s) {
