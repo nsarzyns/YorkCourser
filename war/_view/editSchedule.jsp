@@ -6,12 +6,36 @@
 	<head>
 		<title>Add Courses</title>
 		<link rel="stylesheet" type="text/css" href="webCSS.css">
+		
+		<style type="text/css">
+		body{
+			margin-left: 25px;
+		}
+		 .error {
+			 color: red;
+		}
+		
+		 .course {
+			background-color: #66CCFF;
+			padding: 15px;
+			border-style: groove;
+			width: 250px;
+			size: 10;
+		}
+		</style>
+		
 		<link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
 	</head>
 	
 	<body>
 	<%@ page import="edu.ycp.cs320.sme.model.Course" %>
-
+		<div id="header">
+			<h1>Search for courses to fit your schedule</h1>
+		</div>
+	
+		<c:if test="${! empty errorMessage}">
+			<div class="error">${errorMessage}</div>
+		</c:if>
 			<form action="${pageContext.servletContext.contextPath}/studentEdit" method="post" id="search">
 				<table>
 					<tr>
@@ -21,7 +45,7 @@
 					<tr>
 						<td class="label">Subject</td>
 						<td>
-							<select name="subject" form="search" style="height: 23px; width: 95px; ">
+							<select name="subject" form="search" style="height: 23px; width: 150px; ">
 							  <option value="">Search by subject</option>
 							  <option value="ACC">ACC</option>
 							  <option value="ART">ART</option>
@@ -100,19 +124,27 @@
 				</table>
 				<input type="Submit" name="submit" value="Search Courses">
 			</form>
-		
-		
-		<c:if test="${! empty courseList}">
-		  <c:forEach items="${courseList}" var="current">
-			<div class="course"> 
-				<c:out value="${current.title}"/> 
-			
-					<%-- Subject: <c:out value="${current.getSubject_toS()}"/> <c:out value="${current.getCourseNum()}"/> <br>
-					CRN: <c:out value="${current.getCRN()}"/> <br> 
+		<br>
+		<c:choose>
+		<c:when test = "${ empty done}">
+			<c:if test="${! empty courseList}">
+			  <c:forEach items="${courseList}" var="current">
+				<div class="course"> 
+					Title: <c:out value="${current.title}"/> <br>
+					CRN: <c:out value="${current.CRN}"/> <br>
+					<c:out value="${current.subject}"/>  <c:out value="${current.courseNum}"/>  <br>
 					
-					--%>
-			</div>
-		  </c:forEach>
-		</c:if>
-		
+					<form method="POST" action="${pageContext.servletContext.contextPath}/studentEdit">
+					  <input type="hidden" name="added_crn" value="${current.CRN}" />
+					  <input type="submit" name="submit" value="Add Class" />
+					</form>
+					
+				</div>
+				<br>
+			  </c:forEach>
+			</c:if>
+		</c:when>
+		<c:otherwise>
+			<h2>Course added!</h2></c:otherwise>
+		</c:choose>
 	</body>
