@@ -12,16 +12,14 @@ import edu.ycp.cs320.sme.model.Course.Subject;
 import edu.ycp.cs320.sme.model.Schedule;
 import edu.ycp.cs320.sme.model.Student;
 import edu.ycp.cs320.sme.model.Teacher;
-
+/*
+ * Controller in charge of adding a class to the current schedule from student
+ */
 public class SscheduleEditControl {
-	/*TODO methods: fetch student from ID
-	 * getLastSchedule(Student)
-	 * firstClasstime(schedule)
-	 * lastClasstime(schedule)
-	 */
+	
 	private Student student = new Student();
 	
-	public SscheduleEditControl(File f){
+	public SscheduleEditControl(){
 		student.setName("John Smith");
 		student.setEmail("coolBeans@ycp.edu");
 		//initialize this new "student"

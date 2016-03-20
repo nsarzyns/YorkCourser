@@ -10,13 +10,8 @@
 	</head>
 	
 	<body>
-	<!--  <c:choose>
-		
-		<c:if test="${ empty student}">
-			<div class="error"> No student name </div>
-		</c:if>  
-		
-		<c:otherwise>-->	
+	<%@ page import="edu.ycp.cs320.sme.model.Course" %>
+
 			<form action="${pageContext.servletContext.contextPath}/studentEdit" method="post" id="search">
 				<table>
 					<tr>
@@ -26,7 +21,7 @@
 					<tr>
 						<td class="label">Subject</td>
 						<td>
-							<select name="subject" form="carform" style="height: 23px; width: 95px; ">
+							<select name="subject" form="search" style="height: 23px; width: 95px; ">
 							  <option value="">Search by subject</option>
 							  <option value="ACC">ACC</option>
 							  <option value="ART">ART</option>
@@ -105,14 +100,17 @@
 				</table>
 				<input type="Submit" name="submit" value="Search Courses">
 			</form>
-		<!-- </c:otherwise>
-		</c:choose >-->	
+		
 		
 		<c:if test="${! empty courseList}">
 		  <c:forEach items="${courseList}" var="current">
-			<div class="course"> <c:out value="${current.getTitle()}"/> <br> 
-							Subject: <c:out value="${current.getSubject_toS()}"/> <c:out value="${current.getCourseNum()}"/> <br>
-							CRN: <c:out value="${current.getCRN()}"/> <br>
+			<div class="course"> 
+				<c:out value="${current.title}"/> 
+			
+					<%-- Subject: <c:out value="${current.getSubject_toS()}"/> <c:out value="${current.getCourseNum()}"/> <br>
+					CRN: <c:out value="${current.getCRN()}"/> <br> 
+					
+					--%>
 			</div>
 		  </c:forEach>
 		</c:if>
