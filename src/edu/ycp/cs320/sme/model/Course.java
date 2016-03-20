@@ -137,6 +137,9 @@ public class Course {
 	public Set<Student> getStudents(){
 		return students;
 	}
+	public String getSubject_toS(){
+		return subject.toString();
+	}
 	//################ End of getters/Setters #################
 
 	
