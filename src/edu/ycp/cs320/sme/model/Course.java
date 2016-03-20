@@ -17,6 +17,7 @@ public class Course {
 	private int credits;
 	private Subject subject;
 	private int adr;
+	private String type;
 	
 	private int CRN;
 	private int currSeats =0, maxSeats;
@@ -82,6 +83,9 @@ public class Course {
 	public char[] getDays() {
 		return days;
 	}
+	public String getType () {
+		return type;
+	}
 	public void setDays(char[] days) {
 		this.days = days;
 	}
@@ -140,6 +144,9 @@ public class Course {
 	}
 	public String getSubject_toS(){
 		return subject.toString();
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 	//################ End of getters/Setters #################
 
