@@ -1,4 +1,4 @@
-<!--  Parameters
+<%-- --  Parameters
 Get scheudule 
 See how to handle objects
 Pass list of course
@@ -46,51 +46,125 @@ Pass list of course
   </body>
 </html>
 
--->
+--%>
 
-<%@page import="java.sql.ResultSet"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
-<form name="editrecord">
+<html>
+	<head>
+		<title>View Schedule</title>
+		<link rel="stylesheet" type="text/css" href="webCSS.css">
+		<link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+	<style>
+		table, th, td {
+   			border: 1px solid black;
+		}
+	</style>
+	</head>
+	
+	<body>
+		<form action="${pageContext.servletContext.contextPath}/studentView" method="post" id="view">
+					<table>
+						<%-- <tr>
+							<td class="label">Student ID:</td>
+						</tr>
+						
+						--%>
+						
+						<tr>
+							<th class="label">CRN</th>
+							<th class="label">Subject</th>
+							<th class="label">Course Number</th>
+							<th class="label">Title</th>
+							<th class="label">Credits</th>
+							<th class="label">Type</th>
+							<th class="label">Location</th>
+							<th class="label">Days</th>
+							<th class="label">Instructor</th>
+						</tr>
+							<td>
+								<c:if test="${! empty courseList}">
+		 	 						<c:forEach items="${courseList}" var="current">
+										<div class="course"> 
+									<c:out value="${current.CRN}"/> 
+										</div>
+	  								</c:forEach>
+								</c:if>
+							</td>
+													<td>
+								<c:if test="${! empty courseList}">
+		 	 						<c:forEach items="${courseList}" var="current">
+										<div class="course"> 
+									<c:out value="${current.subject}"/> 
+										</div>
+	  								</c:forEach>
+								</c:if>
+							</td>
+							<td>
+								<c:if test="${! empty courseList}">
+		 	 						<c:forEach items="${courseList}" var="current">
+										<div class="course"> 
+									<c:out value="${current.courseNum}"/> 
+										</div>
+	  								</c:forEach>
+								</c:if>
+							</td>
+							<td>
+								<c:if test="${! empty courseList}">
+		 	 						<c:forEach items="${courseList}" var="current">
+										<div class="course"> 
+									<c:out value="${current.title}"/> 
+										</div>
+	  								</c:forEach>
+								</c:if>
+							</td>
+							<td>
+								<c:if test="${! empty courseList}">
+		 	 						<c:forEach items="${courseList}" var="current">
+										<div class="course"> 
+									<c:out value="${current.credits}"/> 
+										</div>
+	  								</c:forEach>
+								</c:if>
+							</td>
+							<td>
+								<c:if test="${! empty courseList}">
+		 	 						<c:forEach items="${courseList}" var="current">
+										<div class="course"> 
+									<c:out value="${null}"/> 
+										</div>
+	  								</c:forEach>
+								</c:if>
+							</td>
+							<td>
+								<c:if test="${! empty courseList}">
+		 	 						<c:forEach items="${courseList}" var="current">
+										<div class="course"> 
+									<c:out value="${current.room}"/> 
+										</div>
+	  								</c:forEach>
+								</c:if>
+							</td>
+							<td>
+								<c:if test="${! empty courseList}">
+		 	 						<c:forEach items="${courseList}" var="current">
+										<div class="course"> 
+									<c:out value="${null}"/> 
+										</div>
+	  								</c:forEach>
+								</c:if>
+							</td>
+							<td>
+								<c:if test="${! empty courseList}">
+		 	 						<c:forEach items="${courseList}" var="current">
+										<div class="course"> 
+									<c:out value="${current.instructor}"/> 
+										</div>
+	  								</c:forEach>
+								</c:if>
+							</td>
 
-    <% ResultSet rs =(ResultSet)session.getAttribute("resultset"); 
-      out.println("this is getAttribute of resultset"+rs);
-
-    %>
-     <TABLE BORDER="1">
-        <TR>
-            <TH>ID</TH>
-            <TH>FIRSTNAME</TH>
-            <TH>LASTNAME</TH>
-            <TH>SUBJECT</TH>
-            <TH>YEARS</TH>
-        </TR>
-        <% while(rs.next()){ %>
-        <tr>
- <!--               <td>ID</td> -->
-            <td> <input type="text" name="id" value="<%=rs.getString(1) %>"></td>
-        </tr>
-        <tr>
-<!--                <td>FirstName</td> -->
-            <td><input type="text" name="firstname" value="<%=rs.getString(2) %>"></td>
-        </tr>
-        <tr>
-<!--                <td>LastName</td> -->
-            <td><input type="text" name="lastname" value="<%=rs.getString(3) %>"></td>
-        </tr>
-        <tr>
-<!--                <td>Subject</td> -->
-            <td><input type="text" name="subject" value="<%=rs.getString(4) %>"></td>
-        </tr>
-        <tr>
-<!--                <td>years</td> -->
-            <td><input type="text" name="years" value="<%=rs.getString(5) %>"></td>
-
-        </tr>           
-        <% } %>
-    </TABLE>    
-
-
-
- </form>
+	</table>
+	</body>
