@@ -2,6 +2,7 @@ package edu.ycp.cs320.sme.servlet;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -35,26 +36,50 @@ protected void doPost(HttpServletRequest req, HttpServletResponse resp)
   String title = null;
   Subject subject = null;
   int crn = -1;
+  List<Course> courseList = new LinkedList<Course>();
   
   //Create dummy course to test display
   Course c = new Course();
-  c.setTitle("Girls, Girls, Girls");
+  c.setTitle("Test Course");
+  c.setCRN(10234);
+  c.setSubject(Subject.ACC);
+  c.setCourseNum("151.101");
+  courseList.add(c);
   
   Student user = null;
+  //CRN of the course that will be added to schedule
+  int desiredCourse;
   
+  title = req.getParameter("title");
+  
+  if((req.getParameter("added_crn")) != null){
+	  System.out.println(req.getParameter("added_crn"));
+	  
+	  //cheat-y way to hide error message
+	  title = "notNull";
+	  // Param if course has been added
+	  req.setAttribute("done",true);
+  }
+  
+   String tSub = req.getParameter("subject");
+  if(tSub != null && !tSub.equals("") ){
+	  subject = Subject.valueOf(tSub);
+  }
   try {
-    int User = getIntFromParameter(req.getParameter("student_id"));
-
+  	crn = getIntFromParameter(req.getParameter("crn"));
   } catch (NumberFormatException e) {
-    errorMessage = "Invalid Student ID";
+    //errorMessage = "Invalid Student ID";
+  }
+  if((title == null || title.equals("")) && crn < 0 && subject == null){
+	  errorMessage = "Give at least one search parameter";
   }
 
   // Add parameters as request attributes
-  req.setAttribute("student_id", req.getParameter("student_id"));
-
-  // Add result objects as request attributes
+  //req.setAttribute("student_id", req.getParameter("student_id"));
   req.setAttribute("errorMessage", errorMessage);
-  req.setAttribute("user", user);
+  
+  // Add result objects as request attributes
+  req.setAttribute("courseList", courseList);
 
   // Forward to view to render the result HTML document
   req.getRequestDispatcher("/_view/editSchedule.jsp").forward(req, resp);
