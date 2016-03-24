@@ -160,7 +160,7 @@ Pass list of course
 								<c:if test="${! empty courseList}">
 		 	 						<c:forEach items="${courseList}" var="current">
 										<div class="course"> 
-									<c:out value="${current.instructor}"/> 
+									<c:out value="${current.instructor.name}"/> 
 										</div>
 	  								</c:forEach>
 								</c:if>

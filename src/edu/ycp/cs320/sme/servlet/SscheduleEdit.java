@@ -44,7 +44,14 @@ protected void doPost(HttpServletRequest req, HttpServletResponse resp)
   c.setCRN(10234);
   c.setSubject(Subject.ACC);
   c.setCourseNum("151.101");
+  
+  Course c2 = new Course();
+  c2.setTitle("Another Test Course");
+  c2.setCRN(11111);
+  c2.setSubject(Subject.BIO);
+  c2.setCourseNum("101.101");
   courseList.add(c);
+  courseList.add(c2);
   
   Student user = null;
   //CRN of the course that will be added to schedule

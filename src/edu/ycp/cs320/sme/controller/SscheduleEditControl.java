@@ -17,9 +17,15 @@ import edu.ycp.cs320.sme.model.Teacher;
  */
 public class SscheduleEditControl {
 	
-	private Student student = new Student();
-	
 	public SscheduleEditControl(){
+		
+	}
+	/*
+	 * Add course to schedule with crn value
+	 * Need to connect to DB
+	 * pull course via crn and add course to schedule
+	 */
+	public void addClass(int crn){
 		
 	}
 
