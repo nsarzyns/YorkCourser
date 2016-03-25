@@ -20,6 +20,17 @@ public class SscheduleEditControl {
 	public SscheduleEditControl(){
 		
 	}
+	/**
+	 * Procedure to cut down annoying, empty strings
+	 * @param val
+	 * @return null for empty and null strings, otherwise the input string
+	 */
+	public String parseString(String val){
+		if (val == null || val.equals("")){
+			return null;
+		}
+		return val;
+	}
 	/*
 	 * Add course to schedule with crn value
 	 * Need to connect to DB

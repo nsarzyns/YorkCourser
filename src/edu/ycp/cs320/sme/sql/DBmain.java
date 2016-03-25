@@ -29,6 +29,8 @@ import edu.ycp.cs320.sme.sql.DBUtil;
 /*
  * This class is responsible for handling all sql interactions including
  * building table if it doesn't exist, queries, and handling exceptions 
+ * 
+ * NOTE: Titles are stored in DB as all uppercase, searching is case sensitive
  */
 public class DBmain {
 	//A list of lists, easy for passing 
@@ -77,7 +79,7 @@ public class DBmain {
 		if(tables.next()){
 			//Courses table exists
 			System.out.println("[Courses] table exists - Exiting");
-			
+			//stmt.executeUpdate("Drop table COURSES");
 			return;
 		}else{
 			//Going to need to create a courses table
@@ -155,7 +157,7 @@ public class DBmain {
     		pstmt.setInt(1,CRN);
     		pstmt.setString(2,Semester);
     		pstmt.setString(3,subject);
-    		pstmt.setString(4,Title);
+    		pstmt.setString(4,Title.toUpperCase());
     		pstmt.setString(5,Instructor);
     		pstmt.setObject(6, CourseData);
     		pstmt.executeUpdate();
@@ -186,10 +188,11 @@ public class DBmain {
 			System.err.println("empty course search, give at least one proper search");
 			return null;
 		}
-
+		//If given arguments are bad, make search arguments sure to return no results
 		int sCRN = (CRN > 9999)? CRN:-1;
 		String sSubject = (subject != null)? subject:"zzz";
-		String sTitle = (title != null)? title:"zzz";
+		String sTitle = (title == null || title.equals(""))? "zzz":title.toUpperCase();
+		
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet resultSet = null;
@@ -197,31 +200,87 @@ public class DBmain {
 		// connect to the database
 		conn = DriverManager.getConnection("jdbc:derby:test.db;create=true");
 		conn.setAutoCommit(true);
-		stmt = conn.prepareStatement("select courseObject "
-								+ "from courses where "
-								+ "CRN = ? or "
-								+ "Subject = ? or "
-								+ "Title = ?"	);
-		stmt.setInt(1, sCRN);
-		stmt.setString(2, sSubject);
-		stmt.setString(3, sTitle);
+		
+		//title search saps a lot of time in query
+		if(title == null){
+			stmt = conn.prepareStatement("select courseObject "
+					+ "from courses where "
+					+ "CRN = ? or "
+					+ "Subject = ? ");
+			stmt.setInt(1, sCRN);
+			stmt.setString(2, sSubject);
+		}else{
+			stmt = conn.prepareStatement("select courseObject "
+									+ "from courses where "
+									+ "CRN = ? or "
+									+ "Subject = ? or "
+									+ "Title like ? "	);
+			stmt.setInt(1, sCRN);
+			stmt.setString(2, sSubject);
+			stmt.setString(3, "%" + sTitle + "%");
+		}
 		
 		resultSet = stmt.executeQuery();
 		List<Course> courseList = new LinkedList<Course>();
+		int counter = 1;
 		while(resultSet.next()){
 			//credit to: http://javapapers.com/ for method on deSerialize technique
-			byte[] buf = resultSet.getBytes(resultSet.getRow());
+			byte[] buf = resultSet.getBytes(1);
 			ObjectInputStream objectIn = null;
 			if (buf != null){
 				objectIn = new ObjectInputStream(new ByteArrayInputStream(buf));
 			}
 			Course course = (Course) objectIn.readObject();
 			courseList.add(course);
+			counter += 1;
 		}
 		DBUtil.closeQuietly(resultSet);
 		DBUtil.closeQuietly(stmt);
 		DBUtil.closeQuietly(conn);
 		
 		return courseList;
+	}
+	
+	public static Course getCourseFromCRN(int CRN) 
+			throws SQLException, ClassNotFoundException, IOException{
+		try {
+			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+		} catch (Exception e) {
+			System.err.println("Could not load Derby JDBC driver");
+			System.err.println(e.getMessage());
+			return null;
+		}
+		if(CRN < 9999 && CRN > 100000){
+			System.err.println("This is not a valid CRN>> getCourseFromCRN()");
+			return null;
+		}
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet resultSet = null;
+
+		// connect to the database
+		conn = DriverManager.getConnection("jdbc:derby:test.db;create=true");
+		conn.setAutoCommit(true);
+
+		stmt = conn.prepareStatement("select courseObject "
+										+ "from courses where "
+										+ "CRN = ? ");
+		stmt.setInt(1, CRN);
+		resultSet = stmt.executeQuery();
+		
+		Course course = null;
+		if (resultSet.next()){
+			byte[] buf = resultSet.getBytes(1);
+			ObjectInputStream objectIn = null;
+			if (buf != null){
+				objectIn = new ObjectInputStream(new ByteArrayInputStream(buf));
+				course = (Course) objectIn.readObject();
+			}
+		}
+		DBUtil.closeQuietly(resultSet);
+		DBUtil.closeQuietly(stmt);
+		DBUtil.closeQuietly(conn);
+		
+		return course;
 	}
 }
