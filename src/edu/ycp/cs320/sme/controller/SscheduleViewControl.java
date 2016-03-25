@@ -7,11 +7,15 @@ import java.io.FileReader;
 import java.io.IOException;
 
 
+
+import java.sql.SQLException;
+
 import edu.ycp.cs320.sme.model.Course;
 import edu.ycp.cs320.sme.model.Course.Subject;
 import edu.ycp.cs320.sme.model.Schedule;
 import edu.ycp.cs320.sme.model.Student;
 import edu.ycp.cs320.sme.model.Teacher;
+import edu.ycp.cs320.sme.sql.DBmain;
 
 public class SscheduleViewControl {
 	/*TODO methods: fetch student from ID
@@ -27,12 +31,13 @@ public class SscheduleViewControl {
 		//initialize this new "student"
 		Schedule sched = new Schedule();
 		//sched.setLastModified(new Date());
-		 try{
+		 /*try{
 	            BufferedReader reader = new BufferedReader(new FileReader(f));
 	            //Skip first line - titles
 	            reader.readLine();
 	            String line = "";
 	            //Loop line by line
+	            
 	            while((line = reader.readLine()) != null){
 	            	Course c = new Course();
 	            	String[] tokens = line.split(",");
@@ -71,6 +76,14 @@ public class SscheduleViewControl {
 			}
 		 student.addSchedule(sched);
 		 student.setSelectedSchedule(sched);
+		
+		 }finally{} */
+	            try {
+					DBmain.initTables();
+				} catch (FileNotFoundException | SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 	}
 
 	

@@ -1,11 +1,14 @@
 package edu.ycp.cs320.sme.model;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 /*
  * Remember: compare courses with subject and courseNum
  */
-public class Course {
+public class Course implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 	//time <hour(0-23), minute>
 	private int startTimeH,startTimeM;
 	private int finTimeH,finTimeM;
@@ -14,7 +17,7 @@ public class Course {
 	//A must for all courses 
 	private String title;
 	private String courseNum;
-	private int credits;
+	private double credits;
 	private Subject subject;
 	private int adr;
 	private String type;
@@ -32,9 +35,9 @@ public class Course {
 	}
 	
 	public enum Subject {
-		ACC,ANT,ART,BEH,BIO,BUS,CHM,MLS,CM,CS,CJA,ESS,ECO,EDU,ECH,MLE,SE,SPE,EGR,
+		ACC,ANT,ART,BEH,BIO,BUS,CHM,MLS,CM,CS,CRW,CJA,ESS,ECO,EDU,ECH,MLE,SE,SPE,EGR,
 		ECE,ME,ENT,FLM,FIN,FYS,FCM,G,GER,HIS,HSP,HSV,HUM,IFS,IA,IBS,INT,FRN,GRM,
-		ITL,LAT,RUS,SPN,LIT,MGT,MKT,MAT,MUS,NM,NUR,PHL,PE,PSC,PHY,PS,PMD,PSY,QBA,RAD,
+		ITL,LAT,RUS,SPN,LIT,MBA,MED,MGT,MKT,MAT,MUS,NM,NUR,PHL,PE,PSC,PHY,PS,PMD,PSY,QBA,RAD,
 		REC,REL,RT,SOC,SPM,SCM,SES,THE,WGS,FCO,WRT
 
 	}
@@ -62,7 +65,7 @@ public class Course {
 	public String getRoom() {
 		return roomNum;
 	}
-	public int getCredits() {
+	public double getCredits() {
 		return credits;
 	}
 	public Subject getSubject() {
@@ -112,8 +115,8 @@ public class Course {
 	public void setSubject(Subject subject) {
 		this.subject = subject;
 	}
-	public void setCredits(int credits) {
-		this.credits = credits;
+	public void setCredits(double d) {
+		credits = d;
 	}
 	public void setRoom(String roomNum) {
 		this.roomNum = roomNum;
