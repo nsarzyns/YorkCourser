@@ -78,10 +78,6 @@ public class DBmain {
 			//Courses table exists
 			System.out.println("[Courses] table exists - Exiting");
 			
-			//TODO: delete this in the future
-			stmt.executeUpdate("DROP TABLE COURSES");
-			
-			
 			return;
 		}else{
 			//Going to need to create a courses table

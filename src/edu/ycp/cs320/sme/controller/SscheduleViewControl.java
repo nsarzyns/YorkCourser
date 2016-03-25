@@ -31,7 +31,7 @@ public class SscheduleViewControl {
 		//initialize this new "student"
 		Schedule sched = new Schedule();
 		//sched.setLastModified(new Date());
-		 /*try{
+		 try{
 	            BufferedReader reader = new BufferedReader(new FileReader(f));
 	            //Skip first line - titles
 	            reader.readLine();
@@ -77,13 +77,6 @@ public class SscheduleViewControl {
 		 student.addSchedule(sched);
 		 student.setSelectedSchedule(sched);
 		
-		 }finally{} */
-	            try {
-					DBmain.initTables();
-				} catch (FileNotFoundException | SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 	}
 
 	
