@@ -1,4 +1,4 @@
-package edu.ycp.cs320.sme.controller;
+package edu.ycp.cs320.sme.unitTests;
 
 import static org.junit.Assert.*;
 
@@ -6,6 +6,7 @@ import java.io.File;
 
 import org.junit.Test;
 
+import edu.ycp.cs320.sme.controller.SscheduleViewControl;
 import edu.ycp.cs320.sme.model.Course;
 import edu.ycp.cs320.sme.model.Course.Subject;
 import edu.ycp.cs320.sme.model.Student;
