@@ -14,7 +14,6 @@ import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -24,6 +23,7 @@ import java.util.List;
 import edu.ycp.cs320.sme.model.Course;
 import edu.ycp.cs320.sme.model.Teacher;
 import edu.ycp.cs320.sme.model.Course.Subject;
+import edu.ycp.cs320.sme.model.User;
 import edu.ycp.cs320.sme.sql.DBUtil;
 
 /*
@@ -37,8 +37,16 @@ public class DBmain {
 	static class RowList extends ArrayList<List<String>> {
 		private static final long serialVersionUID = 1L;
 	}
-	private static final String SQL_insert = 
+	private static final String SQL_insertCourse = 
 			"INSERT INTO courses(CRN, Semester,Subject,Title,Instructor,courseObject) VALUES (?,?,?,?,?,?)";
+	
+	private static final String SQL_insertUser = 
+			"INSERT INTO users (UserID,userObject) VALUES (?,?)";
+	
+	//Update userObject whenever edited param1 = new UserObject and param2 = userID
+	private static final String SQL_updateUser = 
+			"UPDATE users SET userObject = ? WHERE UserID = ? ";
+	
 	
 	public static void initTables() throws FileNotFoundException, SQLException{
 		Connection conn = null;
@@ -61,6 +69,46 @@ public class DBmain {
 			e.printStackTrace();
 		} 
 		
+	}
+	public static User getUserFromDB(int UserID) 
+			throws SQLException, IOException, ClassNotFoundException{
+		try {
+			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+		} catch (Exception e) {
+			System.err.println("Could not load Derby JDBC driver");
+			System.err.println(e.getMessage());
+			return null;
+		}
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet resultSet = null;
+
+		// connect to the database
+		conn = DriverManager.getConnection("jdbc:derby:test.db;create=true");
+		conn.setAutoCommit(true);
+
+		stmt = conn.prepareStatement("select userObject "
+										+ "from users where "
+										+ "UserID = ? ");
+		stmt.setInt(1, UserID);
+		resultSet = stmt.executeQuery();
+		
+		User user = null;
+		if (resultSet.next()){
+			byte[] buf = resultSet.getBytes(1);
+			ObjectInputStream objectIn = null;
+			if (buf != null){
+				objectIn = new ObjectInputStream(new ByteArrayInputStream(buf));
+				user = (User) objectIn.readObject();
+			}
+		}else{
+			System.err.println("User not found via UserID");
+		}
+		DBUtil.closeQuietly(resultSet);
+		DBUtil.closeQuietly(stmt);
+		DBUtil.closeQuietly(conn);
+		
+		return user;
 	}
 	/**
 	 * Take csv file into a BufferedReader and build course table (only if it does not exist)
@@ -151,7 +199,7 @@ public class DBmain {
              
             byte[] CourseData = bos.toByteArray();
              
-            PreparedStatement pstmt = conn.prepareStatement(SQL_insert);
+            PreparedStatement pstmt = conn.prepareStatement(SQL_insertCourse);
             
 			//CRN, Semester,Subject,Title,Instructor,courseObject
     		pstmt.setInt(1,CRN);
@@ -222,7 +270,6 @@ public class DBmain {
 		
 		resultSet = stmt.executeQuery();
 		List<Course> courseList = new LinkedList<Course>();
-		int counter = 1;
 		while(resultSet.next()){
 			//credit to: http://javapapers.com/ for method on deSerialize technique
 			byte[] buf = resultSet.getBytes(1);
@@ -232,7 +279,6 @@ public class DBmain {
 			}
 			Course course = (Course) objectIn.readObject();
 			courseList.add(course);
-			counter += 1;
 		}
 		DBUtil.closeQuietly(resultSet);
 		DBUtil.closeQuietly(stmt);

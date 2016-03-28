@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import edu.ycp.cs320.sme.controller.SscheduleEditControl;
 import edu.ycp.cs320.sme.model.Course;
@@ -44,7 +45,6 @@ protected void doPost(HttpServletRequest req, HttpServletResponse resp)
   int desiredCourseNum;
   Course courseToAdd = null;
   title = controller.parseString( req.getParameter("title") );
-  System.out.println(title);
   
   //add course (via crn) to student's current schedule
   if((req.getParameter("added_crn")) != null){
