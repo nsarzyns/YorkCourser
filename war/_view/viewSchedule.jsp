@@ -57,110 +57,111 @@ Pass list of course
 		  <!-- <li><a href="#about">About</a></li> -->
 		</ul>
 	</div>
-	<div><br> Schedule name: <br><br>
+	<div> <p style="font-size:20px">Hello,  ${name}</p> </div>
+	<div>Schedule name: ${scheduleName}<br><br>
 	
 	
 	</div>
-		<form action="${pageContext.servletContext.contextPath}/studentView" method="post" id="view">
-					<table>
-						<%-- <tr>
-							<td class="label">Student ID:</td>
-						</tr>
-						
-						--%>
-						
-						<tr>
-							<th class="label">CRN</th>
-							<th class="label">Subject</th>
-							<th class="label">Course Number</th>
-							<th class="label">Title</th>
-							<th class="label">Credits</th>
-							<th class="label">Type</th>
-							<th class="label">Location</th>
-							<th class="label">Days</th>
-							<th class="label">Instructor</th>
-						</tr>
-							<td>
-								<c:if test="${! empty courseList}">
-		 	 						<c:forEach items="${courseList}" var="current">
-										<div class="course"> 
-									<c:out value="${current.CRN}"/> 
-										</div>
-	  								</c:forEach>
-								</c:if>
-							</td>
-													<td>
-								<c:if test="${! empty courseList}">
-		 	 						<c:forEach items="${courseList}" var="current">
-										<div class="course"> 
-									<c:out value="${current.subject}"/> 
-										</div>
-	  								</c:forEach>
-								</c:if>
-							</td>
-							<td>
-								<c:if test="${! empty courseList}">
-		 	 						<c:forEach items="${courseList}" var="current">
-										<div class="course"> 
-									<c:out value="${current.courseNum}"/> 
-										</div>
-	  								</c:forEach>
-								</c:if>
-							</td>
-							<td>
-								<c:if test="${! empty courseList}">
-		 	 						<c:forEach items="${courseList}" var="current">
-										<div class="course"> 
-									<c:out value="${current.title}"/> 
-										</div>
-	  								</c:forEach>
-								</c:if>
-							</td>
-							<td>
-								<c:if test="${! empty courseList}">
-		 	 						<c:forEach items="${courseList}" var="current">
-										<div class="course"> 
-									<c:out value="${current.credits}"/> 
-										</div>
-	  								</c:forEach>
-								</c:if>
-							</td>
-							<td>
-								<c:if test="${! empty courseList}">
-		 	 						<c:forEach items="${courseList}" var="current">
-										<div class="course"> 
-									<c:out value="${null}"/> 
-										</div>
-	  								</c:forEach>
-								</c:if>
-							</td>
-							<td>
-								<c:if test="${! empty courseList}">
-		 	 						<c:forEach items="${courseList}" var="current">
-										<div class="course"> 
-									<c:out value="${current.room}"/> 
-										</div>
-	  								</c:forEach>
-								</c:if>
-							</td>
-							<td>
-								<c:if test="${! empty courseList}">
-		 	 						<c:forEach items="${courseList}" var="current">
-										<div class="course"> 
-									<c:out value="${null}"/> 
-										</div>
-	  								</c:forEach>
-								</c:if>
-							</td>
-							<td>
-								<c:if test="${! empty courseList}">
-		 	 						<c:forEach items="${courseList}" var="current">
-										<div class="course"> 
-									<c:out value="${current.instructor.name}"/> 
-										</div>
-	  								</c:forEach>
-								</c:if>
-							</td>
+		
+	<table>
+		<%-- <tr>
+			<td class="label">Student ID:</td>
+		</tr>
+		
+		--%>
+		
+		<tr>
+			<th class="label">CRN</th>
+			<th class="label">Subject</th>
+			<th class="label">Course Number</th>
+			<th class="label">Title</th>
+			<th class="label">Credits</th>
+			<th class="label">Type</th>
+			<th class="label">Location</th>
+			<th class="label">Days</th>
+			<th class="label">Instructor</th>
+		</tr>
+			<td>
+				<c:if test="${! empty courseList}">
+ 						<c:forEach items="${courseList}" var="current">
+						<div class="course"> 
+					<c:out value="${current.CRN}"/> 
+						</div>
+							</c:forEach>
+				</c:if>
+			</td>
+									<td>
+				<c:if test="${! empty courseList}">
+ 						<c:forEach items="${courseList}" var="current">
+						<div class="course"> 
+					<c:out value="${current.subject}"/> 
+						</div>
+							</c:forEach>
+				</c:if>
+			</td>
+			<td>
+				<c:if test="${! empty courseList}">
+ 						<c:forEach items="${courseList}" var="current">
+						<div class="course"> 
+					<c:out value="${current.courseNum}"/> 
+						</div>
+							</c:forEach>
+				</c:if>
+			</td>
+			<td>
+				<c:if test="${! empty courseList}">
+ 						<c:forEach items="${courseList}" var="current">
+						<div class="course"> 
+					<c:out value="${current.title}"/> 
+						</div>
+							</c:forEach>
+				</c:if>
+			</td>
+			<td>
+				<c:if test="${! empty courseList}">
+ 						<c:forEach items="${courseList}" var="current">
+						<div class="course"> 
+					<c:out value="${current.credits}"/> 
+						</div>
+							</c:forEach>
+				</c:if>
+			</td>
+			<td>
+				<c:if test="${! empty courseList}">
+ 						<c:forEach items="${courseList}" var="current">
+						<div class="course"> 
+					<c:out value="${null}"/> 
+						</div>
+							</c:forEach>
+				</c:if>
+			</td>
+			<td>
+				<c:if test="${! empty courseList}">
+ 						<c:forEach items="${courseList}" var="current">
+						<div class="course"> 
+					<c:out value="${current.room}"/> 
+						</div>
+							</c:forEach>
+				</c:if>
+			</td>
+			<td>
+				<c:if test="${! empty courseList}">
+ 						<c:forEach items="${courseList}" var="current">
+						<div class="course"> 
+					<c:out value="${null}"/> 
+						</div>
+							</c:forEach>
+				</c:if>
+			</td>
+			<td>
+				<c:if test="${! empty courseList}">
+ 						<c:forEach items="${courseList}" var="current">
+						<div class="course"> 
+					<c:out value="${current.instructor.name}"/> 
+						</div>
+							</c:forEach>
+				</c:if>
+			</td>
 
 	</table>
 	</body>

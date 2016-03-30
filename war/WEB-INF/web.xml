@@ -11,6 +11,10 @@
     <servlet-class>edu.ycp.cs320.sme.servlet.SscheduleView</servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>Index</servlet-name>
+    <servlet-class>edu.ycp.cs320.sme.servlet.IndexServlet</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>StudentEdit</servlet-name>
     <servlet-class>edu.ycp.cs320.sme.servlet.SscheduleEdit</servlet-class>
   </servlet>
@@ -24,6 +28,10 @@
   <servlet-mapping>
     <servlet-name>StudentView</servlet-name>
     <url-pattern>/studentView</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Index</servlet-name>
+    <url-pattern>/index</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>StudentEdit</servlet-name>

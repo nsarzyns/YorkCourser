@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import edu.ycp.cs320.sme.controller.SscheduleViewControl;
 import edu.ycp.cs320.sme.model.Course;
 import edu.ycp.cs320.sme.model.Student;
+import edu.ycp.cs320.sme.model.User;
 
 public class SscheduleView extends HttpServlet {
   private static final long serialVersionUID = 1L;
@@ -19,18 +20,28 @@ public class SscheduleView extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
-	  	//Eventually fetch a real ID, but for now     req.getParameter("student_id")
-	  	int userID = 903123456;
-	    Student student = null;
-	    SscheduleViewControl controller = new SscheduleViewControl(new File("./war/Student_test.csv"));
-        student = controller.fetchStudent(userID);
+	  
+	  	//check if system is holding a user in the session, if not redirect to "login" page
+	  	Student student = null;
+	  	User usrTemp = null;
+	  	if((usrTemp = (User) req.getSession().getAttribute("user")) == null){
+	  		//don't do anything - student will stay null
+	  	}else if(usrTemp instanceof Student){
+	  		student = (Student) req.getSession().getAttribute("user");
+	  	}
+	  	//Redirect if still null
+	  	if(student == null){
+	  		resp.sendRedirect("./index.html");
+	  		return;
+	  	}
+
         List<Course> courses = student.getSelectedSchedule().getCourseList();
-	    // Add parameters as request attributes
-	    req.setAttribute("student_id", userID);
+        String scheduleName = student.getSelectedSchedule().getName();
 
 	    // Add result objects as request attributes
 	   // req.setAttribute("errorMessage", errorMessage);
 	    req.setAttribute("name", student.getName());
+	    req.setAttribute("scheduleName", scheduleName);
 	    req.setAttribute("courseList", courses);
 
 	    // Forward to view to render the result HTML document
@@ -43,10 +54,10 @@ public class SscheduleView extends HttpServlet {
 	  
     // Decode form parameters and dispatch to controller
     String errorMessage = null;
-    Student user = null;
+    Student user = (Student) req.getSession().getAttribute("user");
     
+   /* This webpage doesn't require handling posts **YET**
     try {
-      int User = getIntFromParameter(req.getParameter("student_id"));
 
       if (User <0) {
         errorMessage = "Please specify an actual student id";
@@ -67,6 +78,7 @@ public class SscheduleView extends HttpServlet {
 
     // Forward to view to render the result HTML document
     req.getRequestDispatcher("/_view/viewSchedule.jsp").forward(req, resp);
+    */
   }
 
   private int getIntFromParameter(String s) {

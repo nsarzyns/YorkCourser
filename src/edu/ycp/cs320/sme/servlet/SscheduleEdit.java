@@ -14,6 +14,8 @@ import javax.servlet.http.HttpSession;
 
 import edu.ycp.cs320.sme.controller.SscheduleEditControl;
 import edu.ycp.cs320.sme.model.Course;
+import edu.ycp.cs320.sme.model.Schedule;
+import edu.ycp.cs320.sme.model.User;
 import edu.ycp.cs320.sme.model.Course.Subject;
 import edu.ycp.cs320.sme.model.Student;
 import edu.ycp.cs320.sme.sql.DBmain;
@@ -24,8 +26,22 @@ public class SscheduleEdit extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 		  throws ServletException, IOException {
+	//check if system is holding a user in the session, if not redirect to "login" page
+	  	Student student = null;
+	  	User usrTemp = null;
+	  	if((usrTemp = (User) req.getSession().getAttribute("user")) == null){
+	  		//don't do anything - student will stay null
+	  	}else if(usrTemp instanceof Student){
+	  		student = (Student) req.getSession().getAttribute("user");
+	  	}
+	  	//Redirect if still null
+	  	if(student == null){
+	  		resp.sendRedirect("./index.html");
+	  		return;
+	  	}
+	  	
 	  	//Display edit schedule jsp
-	      req.getRequestDispatcher("/_view/editSchedule.jsp").forward(req, resp);
+	    req.getRequestDispatcher("/_view/editSchedule.jsp").forward(req, resp);
 }
 
 @Override
@@ -40,7 +56,7 @@ protected void doPost(HttpServletRequest req, HttpServletResponse resp)
   int crn = -1;
   List<Course> courseList = new LinkedList<Course>();
   
-  Student user = null;
+  Student user = (Student) req.getSession().getAttribute("user");
   //CRN of the course that will be added to schedule
   int desiredCourseNum;
   Course courseToAdd = null;
@@ -59,6 +75,10 @@ protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 	  title = "notNull";
 	  // Param if course has been added
 	  req.setAttribute("done",true);
+	  
+	  //add course to schedule
+	  user.getSelectedSchedule().addCourse(courseToAdd);
+	  
 	  System.out.println(courseToAdd.getCourseNum());
 	  
 	  req.getRequestDispatcher("/_view/editSchedule.jsp").forward(req, resp);
