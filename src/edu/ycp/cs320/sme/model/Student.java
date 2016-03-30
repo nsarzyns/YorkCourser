@@ -22,6 +22,9 @@ public class Student extends User{
 	public Set<Course> getTranscript() {
 		return transcript;
 	}
+	public List<Schedule> getScheduleList(){
+		return scheduleList;
+	}
 	public Schedule getScheduleByN(String name){
 		for (Schedule s: scheduleList){
 			if(s.getName() == name){
@@ -62,4 +65,5 @@ public class Student extends User{
 	public void setTotalCredits(int totalCredits) {
 		this.totalCredits = totalCredits;
 	}
+	
 }

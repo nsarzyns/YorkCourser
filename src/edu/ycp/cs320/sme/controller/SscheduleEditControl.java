@@ -17,9 +17,26 @@ import edu.ycp.cs320.sme.model.Teacher;
  */
 public class SscheduleEditControl {
 	
-	private Student student = new Student();
-	
 	public SscheduleEditControl(){
+		
+	}
+	/**
+	 * Procedure to cut down annoying, empty strings
+	 * @param val
+	 * @return null for empty and null strings, otherwise the input string
+	 */
+	public String parseString(String val){
+		if (val == null || val.equals("")){
+			return null;
+		}
+		return val;
+	}
+	/*
+	 * Add course to schedule with crn value
+	 * Need to connect to DB
+	 * pull course via crn and add course to schedule
+	 */
+	public void addClass(int crn){
 		
 	}
 

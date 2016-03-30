@@ -6,33 +6,28 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-
-
-import java.sql.SQLException;
-
 import edu.ycp.cs320.sme.model.Course;
-import edu.ycp.cs320.sme.model.Course.Subject;
 import edu.ycp.cs320.sme.model.Schedule;
 import edu.ycp.cs320.sme.model.Student;
 import edu.ycp.cs320.sme.model.Teacher;
-import edu.ycp.cs320.sme.sql.DBmain;
+import edu.ycp.cs320.sme.model.Course.Subject;
 
-public class SscheduleViewControl {
-	/*TODO methods: fetch student from ID
-	 * getLastSchedule(Student)
-	 * firstClasstime(schedule)
-	 * lastClasstime(schedule)
-	 */
-	private Student student = new Student();
+/*
+ * Build student that will (ideally) persist through session
+ */
+public class StudentController {
 	
-	public SscheduleViewControl(File f){
-		student.setName("John Smith");
-		student.setEmail("coolBeans@ycp.edu");
+	public Student buildStudent(){
+		Student s = new Student();
+		
+		s.setName("John Smith");
+		s.setEmail("coolBeans@ycp.edu");
 		//initialize this new "student"
 		Schedule sched = new Schedule();
+		sched.setName("Default");
 		//sched.setLastModified(new Date());
 		 try{
-	            BufferedReader reader = new BufferedReader(new FileReader(f));
+	            BufferedReader reader = new BufferedReader(new FileReader(new File("./war/Student_test.csv")));
 	            //Skip first line - titles
 	            reader.readLine();
 	            String line = "";
@@ -74,15 +69,9 @@ public class SscheduleViewControl {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		 student.addSchedule(sched);
-		 student.setSelectedSchedule(sched);
+		 s.addSchedule(sched);
+		 s.setSelectedSchedule(sched);
 		
+		return s;
 	}
-
-	
-	public Student fetchStudent(int i){
-		//TODO: change this to work with actual users from DB in future
-		return student;
-	}
-	
 }

@@ -2,6 +2,37 @@
 
 <html>
 <head>
+<!-- Color pallete http://www.color-hex.com/color-palette/14304 -->
+<style>
+	
+	#nav {
+	    list-style-type: none;
+	    margin: 0;
+	    padding: 0;
+	    overflow: hidden;
+	    background-color: #5dd34f;
+	}
+	
+	li {
+	    float: left;
+	}
+	.active {
+	 	background-color: #41aa4b;
+	}
+	
+	li a {
+	    display: block;
+	    color: white;
+	    text-align: center;
+	    padding: 14px 16px;
+	    text-decoration: none;
+	}
+	
+	li a:hover {
+	    background-color: #3c9531;
+	}
+</style>
+
 <title>York scheduler</title>
 <link rel="stylesheet" type="text/css" href="webCSS.css">
 <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
@@ -9,6 +40,14 @@
 
 
 <body>
+<div>
+	<ul id="nav">
+	  <li><a class="active" href="studentHome.html">Home</a></li>
+	  <li><a href="#news">S</a></li>
+	  <li><a href="#contact">Contact</a></li>
+	  <li><a href="#about">About</a></li>
+	</ul>
+</div>
 
 <div id="header">
 <h1>Get started scheduling your courses now</h1>
@@ -23,9 +62,6 @@
   	<input type="button" class="button" value="View Schedule"  onclick="location.href='studentView';"></input>
   </div>
 </div>
-
-<div class = "error" >Why am i so broken<br>
-  </div>
 
 </body>
 </html>

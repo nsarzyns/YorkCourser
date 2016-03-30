@@ -2,6 +2,7 @@ package edu.ycp.cs320.sme.servlet;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,11 +10,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import edu.ycp.cs320.sme.controller.SscheduleEditControl;
 import edu.ycp.cs320.sme.model.Course;
+import edu.ycp.cs320.sme.model.Schedule;
+import edu.ycp.cs320.sme.model.User;
 import edu.ycp.cs320.sme.model.Course.Subject;
 import edu.ycp.cs320.sme.model.Student;
+import edu.ycp.cs320.sme.sql.DBmain;
 
 public class SscheduleEdit extends HttpServlet {
   private static final long serialVersionUID = 1L;
@@ -21,14 +26,27 @@ public class SscheduleEdit extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 		  throws ServletException, IOException {
+	//check if system is holding a user in the session, if not redirect to "login" page
+	  	Student student = null;
+	  	User usrTemp = null;
+	  	if((usrTemp = (User) req.getSession().getAttribute("user")) == null){
+	  		//don't do anything - student will stay null
+	  	}else if(usrTemp instanceof Student){
+	  		student = (Student) req.getSession().getAttribute("user");
+	  	}
+	  	//Redirect if still null
+	  	if(student == null){
+	  		resp.sendRedirect("./index.html");
+	  		return;
+	  	}
+	  	
 	  	//Display edit schedule jsp
-	      req.getRequestDispatcher("/_view/editSchedule.jsp").forward(req, resp);
+	    req.getRequestDispatcher("/_view/editSchedule.jsp").forward(req, resp);
 }
 
 @Override
 protected void doPost(HttpServletRequest req, HttpServletResponse resp)
     throws ServletException, IOException {
-	  
 	
 	SscheduleEditControl controller = new SscheduleEditControl();
   // Decode form parameters and dispatch to controller
@@ -38,31 +56,37 @@ protected void doPost(HttpServletRequest req, HttpServletResponse resp)
   int crn = -1;
   List<Course> courseList = new LinkedList<Course>();
   
-  //Create dummy course to test display
-  Course c = new Course();
-  c.setTitle("Test Course");
-  c.setCRN(10234);
-  c.setSubject(Subject.ACC);
-  c.setCourseNum("151.101");
-  courseList.add(c);
-  
-  Student user = null;
+  Student user = (Student) req.getSession().getAttribute("user");
   //CRN of the course that will be added to schedule
-  int desiredCourse;
+  int desiredCourseNum;
+  Course courseToAdd = null;
+  title = controller.parseString( req.getParameter("title") );
   
-  title = req.getParameter("title");
-  
+  //add course (via crn) to student's current schedule
   if((req.getParameter("added_crn")) != null){
-	  System.out.println(req.getParameter("added_crn"));
-	  
+	  desiredCourseNum = Integer.parseInt(req.getParameter("added_crn"));
+	 
+	  try {
+		courseToAdd = DBmain.getCourseFromCRN(desiredCourseNum);
+	  } catch (ClassNotFoundException | SQLException e) {
+		e.printStackTrace(); }
+
 	  //cheat-y way to hide error message
 	  title = "notNull";
 	  // Param if course has been added
 	  req.setAttribute("done",true);
+	  
+	  //add course to schedule
+	  user.getSelectedSchedule().addCourse(courseToAdd);
+	  
+	  System.out.println(courseToAdd.getCourseNum());
+	  
+	  req.getRequestDispatcher("/_view/editSchedule.jsp").forward(req, resp);
+	  return;
   }
   
-   String tSub = req.getParameter("subject");
-  if(tSub != null && !tSub.equals("") ){
+  String tSub = controller.parseString( req.getParameter("subject") );
+  if(tSub != null ){
 	  subject = Subject.valueOf(tSub);
   }
   try {
@@ -70,8 +94,14 @@ protected void doPost(HttpServletRequest req, HttpServletResponse resp)
   } catch (NumberFormatException e) {
     //errorMessage = "Invalid Student ID";
   }
-  if((title == null || title.equals("")) && crn < 0 && subject == null){
+  if(title == null && crn < 0 && subject == null){
 	  errorMessage = "Give at least one search parameter";
+  }else{
+	  try {
+		courseList=  DBmain.queryCourses(crn, tSub, title);
+	} catch (ClassNotFoundException | SQLException e) {
+		e.printStackTrace();
+	}
   }
 
   // Add parameters as request attributes

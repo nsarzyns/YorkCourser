@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import edu.ycp.cs320.sme.model.Schedule;
 import edu.ycp.cs320.sme.model.Student;
+import edu.ycp.cs320.sme.model.User;
 
 public class SscheduleCreate extends HttpServlet {
   private static final long serialVersionUID = 1L;
@@ -16,6 +17,19 @@ public class SscheduleCreate extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
+	//check if system is holding a user in the session, if not redirect to "login" page
+	  	Student student = null;
+	  	User usrTemp = null;
+	  	if((usrTemp = (User) req.getSession().getAttribute("user")) == null){
+	  		//don't do anything - student will stay null
+	  	}else if(usrTemp instanceof Student){
+	  		student = (Student) req.getSession().getAttribute("user");
+	  	}
+	  	//Redirect if still null
+	  	if(student == null){
+	  		resp.sendRedirect("./index.html");
+	  		return;
+	  	}
 	  	
 	  req.getRequestDispatcher("/_view/newSchedule.jsp").forward(req, resp);
   }

@@ -6,6 +6,8 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.webapp.WebAppContext;
 
+import edu.ycp.cs320.sme.sql.DBmain;
+
 public class Main {
 	public static void main(String[] args) throws Exception {
 		Server server = new Server(8081);
@@ -22,6 +24,9 @@ public class Main {
 		// Start the server
 		server.start();
 		
+		//Initialize database tables
+		DBmain.initTables();
+		
 		// Wait for the user to type "quit"
 		System.out.println("Web server started @ http://localhost:8081/sme , type quit to shut down");
 		Scanner keyboard = new Scanner(System.in);
@@ -31,6 +36,9 @@ public class Main {
 				break;
 			}
 		}
+		
+		
+		
 		keyboard.close();
 		System.out.println("Shutting down...");
 		server.stop();
