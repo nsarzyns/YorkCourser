@@ -21,14 +21,12 @@ public class IndexServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
-	  	
 	  ProcessRequest( req,  resp);
   }
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
-	  
 	  ProcessRequest( req,  resp);
   
 	  
@@ -54,6 +52,7 @@ public class IndexServlet extends HttpServlet {
 		 TeacherController controller = new TeacherController();
 		 //Controller should do something to create a teacher object, but for now...
 		 Teacher forNow = new Teacher();
+		 forNow.setName("Joe Teacher");
 		 //Teacher persistantTeacher = controller.getTeacher();
 		 
 		 HttpSession session = req.getSession(true);

@@ -1,8 +1,8 @@
 package edu.ycp.cs320.sme.model;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedList;
+import java.util.List;
 /*
  * Remember: compare courses with subject and courseNum
  */
@@ -23,12 +23,14 @@ public class Course implements Serializable{
 	private String type;
 	
 	private int CRN;
-	private int currSeats =0, maxSeats;
+	private int currSeats =0, maxSeats=1;
 	private String roomNum;
 	private Teacher instructor;
 	//TODO set this up properly
 	//private Set<Course> p;
-	private Set<Student> students = new HashSet<Student>();
+	private List<Student> students = new LinkedList<Student>();
+	private List<Student> sAllowedOverride = new LinkedList<Student>();
+	private List<Student> pendingOverride = new LinkedList<Student>();
 	
 	public Course(){
 		days = new char[7];
@@ -89,6 +91,15 @@ public class Course implements Serializable{
 	public String getType () {
 		return type;
 	}
+	public List<Student> getStudentOverride() {
+		return sAllowedOverride;
+	}
+	public void addToStudentOverride(Student s) {
+		sAllowedOverride.add(s);
+	}
+	public void setStudentOverride(List<Student> sAllowedOverride) {
+		this.sAllowedOverride = sAllowedOverride;
+	}
 	public void setDays(char[] days) {
 		this.days = days;
 	}
@@ -140,9 +151,11 @@ public class Course implements Serializable{
 		this.startTimeH = startTimeH;
 	}
 	public void addStudent(Student s){
-		students.add(s);
+		if(!students.contains(s)){
+			students.add(s);
+		}
 	}
-	public Set<Student> getStudents(){
+	public List<Student> getStudents(){
 		return students;
 	}
 	public String getSubject_toS(){
@@ -153,16 +166,16 @@ public class Course implements Serializable{
 	}
 	//################ End of getters/Setters #################
 
-	
-	public boolean available(){
-		if(currSeats >= maxSeats){
-			return false;
-		}
-		
-		return true;
-	}
+
 	public boolean available(Student s){
-		if(currSeats >= maxSeats && !students.equals(s)){
+		//if student is all ready in this course (in another schedule)
+		if(students.contains(s)){
+			return true;
+		}
+		if(sAllowedOverride.contains(s)){
+			return true;
+		}
+		if(currSeats >= maxSeats){
 			return false;
 		}
 		
