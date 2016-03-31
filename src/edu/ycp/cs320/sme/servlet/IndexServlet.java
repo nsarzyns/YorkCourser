@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import edu.ycp.cs320.sme.controller.StudentController;
+import edu.ycp.cs320.sme.controller.TeacherController;
 import edu.ycp.cs320.sme.model.Schedule;
 import edu.ycp.cs320.sme.model.Student;
+import edu.ycp.cs320.sme.model.Teacher;
 
 public class IndexServlet extends HttpServlet {
 	
@@ -47,8 +49,18 @@ public class IndexServlet extends HttpServlet {
 		 HttpSession session = req.getSession(true);
 		 System.out.println(session.getId());
 		 session.setAttribute("user", persistantStudent);
-		// req.getRequestDispatcher("./index.html").forward(req, resp);
 		 resp.sendRedirect("./studentHome.html");
+	 }else if(type.equals("teacher")){
+		 TeacherController controller = new TeacherController();
+		 //Controller should do something to create a teacher object, but for now...
+		 Teacher forNow = new Teacher();
+		 //Teacher persistantTeacher = controller.getTeacher();
+		 
+		 HttpSession session = req.getSession(true);
+		 System.out.println(session.getId());
+		 session.setAttribute("user", forNow);
+		// req.getRequestDispatcher("./index.html").forward(req, resp);
+		 resp.sendRedirect("./teacherHome.html");
 	 }
   }
 }

@@ -27,12 +27,23 @@ public class Student extends User{
 	}
 	public Schedule getScheduleByN(String name){
 		for (Schedule s: scheduleList){
-			if(s.getName() == name){
+			if(s.getName().toLowerCase().equals(name.toLowerCase())){
 				return s;
 			}
 		}
 		//A schedule by this name does not exist
 		return null;
+	}
+	//return a list of strings of names of each schedule, selected schedule being first
+	public List<String> getScheduleNameList(){
+		List<String> names = new LinkedList<String>();
+		names.add(selectedSchedule.getName());
+		for(Schedule s : scheduleList ){
+			if (!s.equals(selectedSchedule)){
+				names.add(s.getName());
+			}
+		}
+		return names;
 	}
 	public void addSchedule(Schedule s){
 		scheduleList.add(s);
