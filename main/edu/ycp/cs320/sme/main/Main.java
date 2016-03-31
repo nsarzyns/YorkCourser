@@ -28,7 +28,7 @@ public class Main {
 		DBmain.initTables();
 		
 		// Wait for the user to type "quit"
-		System.out.println("Web server started @ http://localhost:8081/sme , type quit to shut down");
+		System.out.println("Web server started, type quit to shut down - http://localhost:8081/sme");
 		Scanner keyboard = new Scanner(System.in);
 		while (keyboard.hasNextLine()) {
 			String line = keyboard.nextLine();

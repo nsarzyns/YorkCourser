@@ -76,11 +76,15 @@ protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 	  // Param if course has been added
 	  req.setAttribute("done",true);
 	  
-	  //add course to schedule
-	  user.getSelectedSchedule().addCourse(courseToAdd);
-	  
-	  System.out.println(courseToAdd.getCourseNum());
-	  
+	  if(courseToAdd.available(user)){
+		  //add course to schedule
+		  user.getSelectedSchedule().addCourse(courseToAdd);
+		  
+		  //TODO update course in table after student is added to list
+		  courseToAdd.addStudent(user);
+		  
+		  System.out.println(courseToAdd.getCourseNum() + " added to students schedule");
+	  }
 	  req.getRequestDispatcher("/_view/editSchedule.jsp").forward(req, resp);
 	  return;
   }
