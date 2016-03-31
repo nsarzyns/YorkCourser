@@ -34,6 +34,11 @@ body{
 	width: 45%;
 }
 
+#override{
+	float: right;
+	width: 45%;
+}
+
 #header {
 	 width: 100%; 
 	 padding: 5%;
