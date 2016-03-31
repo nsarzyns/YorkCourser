@@ -1,18 +1,30 @@
 <html>
 	<head>
 		<title>Dispatch to proper page</title>
+		<style type="text/css">
+			body{
+					margin-left: 25px;
+				}
+		</style>
 	</head>
 	
 	<body>
-		I am a... <br>
+		I am a... <br><br>
 		
 		<!-- Form responsible for creating either a Student or Teacher user and directing to the correct page -->
-		<form action="./index" method="post" id="student">
+		<form action="./index" method="post" >
 			<!--  &nbsp <a href="studentHome.html">Student</a> </br> -->
 			<input type="hidden" name="type" value="student">
 			<input type="submit" value="Student"> <br>
 			
 		</form>
-		&nbsp <a href="teacherHome.html">Teacher</a>
+		<br>
+		<form action="./index" method="post" >
+			<!--  &nbsp <a href="teacherHome.html">Teacher</a> </br> -->
+			<input type="hidden" name="type" value="teacher">
+			<input type="submit" value="Teacher"> <br>
+			
+		</form>
+		
 	</body>
 </html>

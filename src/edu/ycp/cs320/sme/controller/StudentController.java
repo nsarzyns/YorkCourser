@@ -25,6 +25,9 @@ public class StudentController {
 		//initialize this new "student"
 		Schedule sched = new Schedule();
 		sched.setName("Default");
+		
+		Schedule MTsched = new Schedule();
+		MTsched.setName("EmptySchedule");
 		//sched.setLastModified(new Date());
 		 try{
 	            BufferedReader reader = new BufferedReader(new FileReader(new File("./war/Student_test.csv")));
@@ -71,7 +74,29 @@ public class StudentController {
 			}
 		 s.addSchedule(sched);
 		 s.setSelectedSchedule(sched);
-		
+		 s.addSchedule(MTsched);
 		return s;
 	}
+
+	public Student changeSelectedSchedule (Student s, String newSchedule){
+		//We don't want to change the schedule this case
+		if (newSchedule == null || newSchedule == s.getSelectedSchedule().getName()){
+			return s;
+		}
+		s.setSelectedSchedule(s.getScheduleByN(newSchedule));
+		return s;
+	}
+
+	public Student createSchedule (Student s, String newSchedule, String semester){
+		Schedule newSche = new Schedule();
+		newSche.setName(newSchedule);
+		newSche.setSemester(semester);
+		s.addSchedule(newSche);
+		s.setSelectedSchedule(newSche);
+		return s;
+	}
+	
+	
+	
+
 }

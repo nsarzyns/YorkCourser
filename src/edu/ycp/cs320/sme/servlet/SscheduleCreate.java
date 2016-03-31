@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import edu.ycp.cs320.sme.controller.StudentController;
 import edu.ycp.cs320.sme.model.Schedule;
 import edu.ycp.cs320.sme.model.Student;
 import edu.ycp.cs320.sme.model.User;
@@ -31,7 +32,7 @@ public class SscheduleCreate extends HttpServlet {
 	  		return;
 	  	}
 	  	
-	  req.getRequestDispatcher("/_view/newSchedule.jsp").forward(req, resp);
+	  req.getRequestDispatcher("/_view/createSchedule.jsp").forward(req, resp);
   }
 
   @Override
@@ -43,31 +44,22 @@ public class SscheduleCreate extends HttpServlet {
     String name = null;
     String semester = null;
     
-    name = req.getParameter("name");
+    name = req.getParameter("scheduleName");
     semester = req.getParameter("semester");
     
-    //this really doesn't work yet. Not a persistent user
-    //send them to edit this schedule
-    if(name != null){
-    	Student s = new Student();
-    	Schedule schedule = new Schedule();
-    	schedule.setName(name);
-    	schedule.setSemester(semester);
-    	s.addSchedule(schedule);
-    	req.setAttribute("student", s);
-    	
-    	//TODO: See if this is actually running the doGet portion or skips to the post
-        resp.sendRedirect("/studentEdit");
+    if(name == null || name.equals("")){
+    	//No schedule name was entered!
+    	errorMessage = "Please include a schedule name";
+    	req.setAttribute("errorMessage", errorMessage);
+    	req.getRequestDispatcher("/_view/createSchedule.jsp").forward(req, resp);
+    	return;
     }else{
-    	errorMessage = "Please include a name";
+    	Student s = (Student) req.getSession().getAttribute("user");
+    	StudentController control = new StudentController();
+       	s = control.createSchedule(s, name, semester);
+       	req.getSession().setAttribute("user", s);
+        resp.sendRedirect("./studentEdit");
     }
-
-    // Add result objects as request attributes
-    req.setAttribute("errorMessage", errorMessage);
-    
-
-    // Forward to view to render the result HTML document
-    req.getRequestDispatcher("/_view/newSchedule.jsp").forward(req, resp);
   }
 
 }

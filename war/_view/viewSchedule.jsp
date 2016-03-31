@@ -14,7 +14,7 @@ Pass list of course
 		<title>View Schedule</title>
 		<link rel="stylesheet" type="text/css" href="webCSS.css">
 		<link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
-	<style>
+	<style type="text/css">
 		table, th, td {
    			border: 1px solid black;
 		}
@@ -58,9 +58,18 @@ Pass list of course
 		</ul>
 	</div>
 	<div> <p style="font-size:20px">Hello,  ${name}</p> </div>
-	<div>Schedule name: ${scheduleName}<br><br>
-	
-	
+	<div>Schedule name: ${scheduleName}
+	<br><br>
+	Select a new schedule to view and edit: 
+			<form method="POST" action="${pageContext.servletContext.contextPath}/studentView" id=changeSch>
+							<select name="schedule" form="changeSch" style="height: 23px; width: 150px; ">
+								<c:forEach items="${nameList}" var="current"> <br>
+									<option value="${current}">${current}</option> 	
+								</c:forEach>
+							</select>
+							<input type="submit" name="submit" value="Select schedule" />
+						</form>
+	<br>						
 	</div>
 		
 	<table>
