@@ -6,9 +6,12 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.webapp.WebAppContext;
 
+import edu.ycp.cs320.sme.sql.DatabaseProvider;
 import edu.ycp.cs320.sme.sql.DBmain;
 
 public class Main {
+	@SuppressWarnings("static-access")
+	
 	public static void main(String[] args) throws Exception {
 		Server server = new Server(8081);
 
@@ -25,7 +28,13 @@ public class Main {
 		server.start();
 		
 		//Initialize database tables
-		DBmain.initTables();
+		//DBmain.initTables();
+		System.out.println("Running - main before DBcall");
+		DBmain db = new DBmain();
+		db.main(null);
+	
+		DatabaseProvider.setInstance(db);
+		System.out.println("Running - main after DBcall");
 		
 		// Wait for the user to type "quit"
 		System.out.println("Web server started, type quit to shut down - http://localhost:8081/sme");
