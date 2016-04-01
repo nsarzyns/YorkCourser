@@ -29,12 +29,10 @@ public class Main {
 		
 		//Initialize database tables
 		//DBmain.initTables();
-		System.out.println("Running - main before DBcall");
 		DBmain db = new DBmain();
 		db.main(null);
 	
 		DatabaseProvider.setInstance(db);
-		System.out.println("Running - main after DBcall");
 		
 		// Wait for the user to type "quit"
 		System.out.println("Web server started, type quit to shut down - http://localhost:8081/sme");
