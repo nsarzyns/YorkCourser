@@ -80,15 +80,21 @@ Pass list of course
 		--%>
 		
 		<tr>
-			<th class="label">CRN</th>
-			<th class="label">Subject</th>
-			<th class="label">Course Number</th>
-			<th class="label">Title</th>
-			<th class="label">Credits</th>
-			<th class="label">Type</th>
-			<th class="label">Location</th>
-			<th class="label">Days</th>
-			<th class="label">Instructor</th>
+			<c:choose>
+				<c:when test="${! empty courseList}">
+					<th class="label">CRN</th>
+					<th class="label">Subject</th>
+					<th class="label">Course Number</th>
+					<th class="label">Title</th>
+					<th class="label">Credits</th>
+					<th class="label">Type</th>
+					<th class="label">Location</th>
+					<th class="label">Days</th>
+					<th class="label">Instructor</th>
+				</c:when>
+			<c:otherwise>
+				<h2>ADD COURSES TO BEGIN</h2></c:otherwise>
+			</c:choose>
 		</tr>
 			<td>
 				<c:if test="${! empty courseList}">
