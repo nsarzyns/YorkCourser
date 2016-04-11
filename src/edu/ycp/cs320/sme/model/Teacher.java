@@ -2,6 +2,7 @@ package edu.ycp.cs320.sme.model;
 import java.util.ArrayList;
 
 public class Teacher extends User{
+	private static final long serialVersionUID = 1L;
 	private String teacherName;
 	private String email;
 	private int uniqueID;

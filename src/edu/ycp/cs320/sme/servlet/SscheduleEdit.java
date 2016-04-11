@@ -1,8 +1,6 @@
 package edu.ycp.cs320.sme.servlet;
 
-import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -10,15 +8,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
+import edu.ycp.cs320.sme.sql.DatabaseProvider;
+import edu.ycp.cs320.sme.sql.IDatabase;
 import edu.ycp.cs320.sme.controller.SscheduleEditControl;
 import edu.ycp.cs320.sme.model.Course;
-import edu.ycp.cs320.sme.model.Schedule;
 import edu.ycp.cs320.sme.model.User;
 import edu.ycp.cs320.sme.model.Course.Subject;
 import edu.ycp.cs320.sme.model.Student;
-import edu.ycp.cs320.sme.sql.DBmain;
 
 public class SscheduleEdit extends HttpServlet {
   private static final long serialVersionUID = 1L;
@@ -58,6 +55,7 @@ protected void doPost(HttpServletRequest req, HttpServletResponse resp)
   
   Student user = (Student) req.getSession().getAttribute("user");
   //CRN of the course that will be added to schedule
+  IDatabase db = DatabaseProvider.getInstance();
   int desiredCourseNum;
   Course courseToAdd = null;
   title = controller.parseString( req.getParameter("title") );
@@ -65,12 +63,8 @@ protected void doPost(HttpServletRequest req, HttpServletResponse resp)
   //add course (via crn) to student's current schedule
   if((req.getParameter("added_crn")) != null){
 	  desiredCourseNum = Integer.parseInt(req.getParameter("added_crn"));
-	 
-	  try {
-		courseToAdd = DBmain.getCourseFromCRN(desiredCourseNum);
-	  } catch (ClassNotFoundException | SQLException e) {
-		e.printStackTrace(); }
-
+	  courseToAdd = db.getCourseFromCRN(desiredCourseNum);
+	  
 	  //cheat-y way to hide error message
 	  title = "notNull";
 	  // Param if course has been added
@@ -79,9 +73,6 @@ protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 	  if(courseToAdd.available(user)){
 		  //add course to schedule
 		  user.getSelectedSchedule().addCourse(courseToAdd);
-		  
-		  //TODO update course in table after student is added to list
-		  courseToAdd.addStudent(user);
 		  
 		  System.out.println(courseToAdd.getCourseNum() + " added to students schedule");
 	  }
@@ -101,11 +92,7 @@ protected void doPost(HttpServletRequest req, HttpServletResponse resp)
   if(title == null && crn < 0 && subject == null){
 	  errorMessage = "Give at least one search parameter";
   }else{
-	  try {
-		courseList=  DBmain.queryCourses(crn, tSub, title);
-	} catch (ClassNotFoundException | SQLException e) {
-		e.printStackTrace();
-	}
+	  courseList= db.queryCourses(crn, tSub, title);
   }
 
   // Add parameters as request attributes
