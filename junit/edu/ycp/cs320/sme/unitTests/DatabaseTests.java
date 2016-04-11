@@ -18,6 +18,7 @@ public class DatabaseTests {
 
 	@Test
 	public void CourseQueryTest() {
+		
 		IDatabase db = DatabaseProvider.getInstance();
 		//Fall 2016,10015,FYS,100.115,RACE JUSTICE AMERICA,3,LEC,HUM 144,M,,W,,,,,"Levy, Peter"
 		List<Course> course = db.queryCourses(10015, null, null);

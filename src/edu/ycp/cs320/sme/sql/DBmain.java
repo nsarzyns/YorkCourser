@@ -50,6 +50,9 @@ public class DBmain implements IDatabase{
 	private static final String SQL_insertUser = 
 			"INSERT INTO users (UserID,userObject) VALUES (?,?)";
 	
+	private static final String SQL_updateCourse = 
+			"UPDATE courses SET courseObject = ? WHERE CRN = ? ";
+	
 	//Update userObject whenever edited param1 = new UserObject and param2 = userID
 	private static final String SQL_updateUser = 
 			"UPDATE users SET userObject = ? WHERE UserID = ? ";
@@ -274,6 +277,9 @@ public class DBmain implements IDatabase{
 					
 					} catch (NumberFormatException | IOException e) {
 						e.printStackTrace();
+					}finally{
+						DBUtil.closeQuietly(stmt);
+						DBUtil.closeQuietly(tables);
 					}
 					System.out.println(count + " courses added to [Courses] table");
 				}
@@ -344,6 +350,24 @@ public class DBmain implements IDatabase{
 				DBUtil.closeQuietly(conn);
 				
 				return courseList;
+			}
+		});
+		
+	}
+	
+	@Override
+	public boolean updateCourse(final Course course) {
+		return executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				if(course == null){
+					throw new IllegalArgumentException ("updating course with null course");
+				}
+				PreparedStatement stmt = null;
+				stmt = conn.prepareStatement(SQL_updateCourse);
+				//TODO: finish the rest of this method (condense course to byteStream)
+				DBUtil.closeQuietly(conn);
+				return true;
 			}
 		});
 		
