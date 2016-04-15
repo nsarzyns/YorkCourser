@@ -9,7 +9,7 @@ import java.util.List;
 public class Course implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-	//time <hour(0-23), minute>
+	//time <hour(1-24), minute>
 	private int startTimeH,startTimeM;
 	private int finTimeH,finTimeM;
 	//represent days of the week course takes place Mon(0)-Sun(6)
@@ -23,7 +23,7 @@ public class Course implements Serializable{
 	private String type;
 	
 	private int CRN;
-	private int currSeats =0, maxSeats=1;
+	private int currSeats =0, openSeat=0, maxSeats=1;
 	private String roomNum;
 	private Teacher instructor;
 	//TODO set this up properly
@@ -93,6 +93,12 @@ public class Course implements Serializable{
 	}
 	public List<Student> getStudentOverride() {
 		return sAllowedOverride;
+	}
+	public int getOpenSeat() {
+		return openSeat;
+	}
+	public void setOpenSeat(int openSeat) {
+		this.openSeat = openSeat;
 	}
 	public void addToStudentOverride(Student s) {
 		sAllowedOverride.add(s);

@@ -73,7 +73,7 @@ protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 	  if(courseToAdd.available(user)){
 		  //add course to schedule
 		  user.getSelectedSchedule().addCourse(courseToAdd);
-		  
+		  db.updateStudent(user);
 		  System.out.println(courseToAdd.getCourseNum() + " added to students schedule");
 	  }
 	  req.getRequestDispatcher("/_view/editSchedule.jsp").forward(req, resp);

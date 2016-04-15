@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 public class Student extends User{
-	private static final long serialVersionUID = 1L;
 	private int totalCredits;
 	//set of all passed classes (and classes currently being taken)
 	private Set<Course> transcript;

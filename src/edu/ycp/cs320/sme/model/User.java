@@ -1,13 +1,11 @@
 package edu.ycp.cs320.sme.model;
 
-import java.io.Serializable;
 
-public class User implements Serializable{
-	private static final long serialVersionUID = 1L;
-	private String name;
-	private String email;
+public class User{
+	protected String name;
+	protected String email;
 	//9 digit unique id for storing in DB
-	private int uniqueID;
+	protected int uniqueID;
 	
 	public String getName() {
 		return name;
@@ -21,7 +19,7 @@ public class User implements Serializable{
 	public String getUniqueID_toS(){
 		return String.valueOf(uniqueID);
 	}
-	public int generateUniqueID(){
+	public static int generateUniqueID(){
 		//find a value between 0-999,999,999
 		return (int) ((Math.random()+0.000000001) *999999999);
 	}

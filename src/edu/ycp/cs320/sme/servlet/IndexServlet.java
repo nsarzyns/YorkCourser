@@ -42,7 +42,7 @@ public class IndexServlet extends HttpServlet {
 		 req.getRequestDispatcher("./index.html").forward(req, resp);
 	 }else if(type.equals("student")){
 		 StudentController controller = new StudentController();
-		 Student persistantStudent = controller.buildStudent();
+		 Student persistantStudent = controller.getGenericStudent();
 		 
 		 HttpSession session = req.getSession(true);
 		 System.out.println(session.getId());
