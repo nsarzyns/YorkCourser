@@ -1,5 +1,6 @@
 package edu.ycp.cs320.sme.model;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Teacher extends User{
 	//CRN's of the classes they teach
@@ -27,5 +28,15 @@ public class Teacher extends User{
 		if(classIndex != -1){
 			this.classList.remove(classIndex);
 		}	
+	}
+
+	public List<String> getScheduleNameList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public User getSelectedSchedule() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

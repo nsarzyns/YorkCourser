@@ -1,6 +1,15 @@
 /* background-color: yellow; */
 body{
 	font-family: 'Oswald', sans-serif;
+	background-image: url(./Images/Background.jpg); 
+
+	-moz-background-size: cover;
+	-webkit-background-size: cover;
+	background-size: cover;
+	background-position: top center !important;
+	background-repeat: no-repeat !important;
+	background-attachment: fixed;
+
 }
 #parent{
 	display: flex;
@@ -42,4 +51,9 @@ body{
 #header {
 	 width: 100%; 
 	 padding: 5%;
+}
+
+#logoImage {
+	width:356.25;
+	
 }

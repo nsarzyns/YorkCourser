@@ -19,6 +19,7 @@ Pass list of course
    			border: 1px solid black;
 		}
 		#nav {
+		font-weight: bold;
 	    list-style-type: none;
 	    margin: 0;
 	    padding: 0;
@@ -55,6 +56,7 @@ Pass list of course
 		  <li><a class="active" href="studentView">View your schedule</a></li>
 		  <li><a href="studentCreate">Create new schedule</a></li>
 		  <!-- <li><a href="#about">About</a></li> -->
+		  <li class="logoImage"><img src="./Images/ycplogo_1.png" width="237.5" style="padding-left: 100%" alt=""/></li>
 		</ul>
 	</div>
 	<div> <p style="font-size:20px">Hello,  ${name}</p> </div>
