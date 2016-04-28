@@ -20,7 +20,7 @@ public class TeacherController {
 		if (firstTryT != null){
 			return firstTryT;
 		}
-
+		System.out.println("teacher is null");
 		return firstTryT;
 		
 	}

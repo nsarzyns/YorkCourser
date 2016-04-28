@@ -193,7 +193,7 @@ public class DBmain implements IDatabase{
 				stmt1 = conn.prepareStatement(
 						"create table schedules ( "
 						+ "userID int constraint U_Id references users, "
-						+ "courseID int constraint C_Id references courses "
+						+ "courseID int constraint C_Id references courses, "
 						+ "sch_num int )");
 				stmt1.executeUpdate();
 				return true;

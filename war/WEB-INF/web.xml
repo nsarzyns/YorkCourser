@@ -27,6 +27,10 @@
   <servlet>
     <servlet-name>StudentCreate</servlet-name>
     <servlet-class>edu.ycp.cs320.sme.servlet.SscheduleCreate</servlet-class>
+  </servlet>  
+  <servlet>
+    <servlet-name>TeacherView</servlet-name>
+    <servlet-class>edu.ycp.cs320.sme.servlet.TscheduleView</servlet-class>
   </servlet>
   
 
@@ -50,6 +54,10 @@
   <servlet-mapping>
     <servlet-name>StudentCreate</servlet-name>
     <url-pattern>/studentCreate</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>TeacherView</servlet-name>
+    <url-pattern>/teacherView</url-pattern>
   </servlet-mapping>
 
   <welcome-file-list>

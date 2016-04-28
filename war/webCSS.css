@@ -9,8 +9,8 @@ body{
 	background-position: top center !important;
 	background-repeat: no-repeat !important;
 	background-attachment: fixed;
-
 }
+
 #parent{
 	display: flex;
 	padding-right: 25px;
@@ -25,7 +25,7 @@ body{
 	
 }
 
-.button {
+/* .button {
     background-color: #4CAF50;
     border: none;
     color: white;
@@ -36,14 +36,59 @@ body{
     font-size: 16px;
     margin: 4px 2px;
     cursor: pointer;
+} */
+
+.btn {
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 10px 16px;
+
 }
+  
+.btn-lg {
+  font-size: 18px;
+  line-height: 1.33;
+  border-radius: 6px;
+  width: 60%;
+  height: 300px;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #4CAF50;
+  border-color: #FFFFFF;
+}
+
+.btn-opac {
+	opacity: 0.4;
+}
+
+.btn-hover {
+	opacity: 1.0;
+}
+
 
 #create{
 	float: right;
 	width: 45%;
 }
 
-#override{
+.override{
 	float: right;
 	width: 45%;
 }
@@ -57,3 +102,9 @@ body{
 	width:356.25;
 	
 }
+
+
+
+
+
+
