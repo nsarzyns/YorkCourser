@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import edu.ycp.cs320.sme.model.Course;
 import edu.ycp.cs320.sme.model.Course.Subject;
+import edu.ycp.cs320.sme.model.Student;
 import edu.ycp.cs320.sme.model.Teacher;
 import edu.ycp.cs320.sme.sql.DBmain;
 import edu.ycp.cs320.sme.sql.DatabaseProvider;
@@ -77,12 +78,27 @@ public class DatabaseTests {
 		
 	}
 	@Test
+	public void updateStudentI(){
+		Student s = null;
+		IDatabase db = DatabaseProvider.getInstance();
+		s = db.fetchStudent("John", "Smith", null);
+		System.out.println("Size before additional class " + s.getSelectedSchedule().getCourseList().size());
+		
+		//10045,BIO,150.103,Intro Molecular Bio,4,LEC,M W F,11:00AM- 11:50AM,128,LS 128,Boehmler W,25,13
+		Course nuC = db.getCourseFromCRN(10045);
+		s.getSelectedSchedule().addCourse(nuC);
+		db.updateStudent(s);
+		s = db.fetchStudent("John", "Smith", null);
+		System.out.println("Size after additional class " + s.getSelectedSchedule().getCourseList().size());
+	}
+	@Test
 	public void testFetchTeacher(){
 		IDatabase db = DatabaseProvider.getInstance();
 		Teacher t = null;
 		t = db.fetchTeacher("Hake");
 		assertEquals("Hake, D",t.getName());
 		System.out.println(t.getName());
+		System.out.println("No. of classes Hake has: "+ t.getClassList().size());
 		t = db.fetchTeacher("hake");
 		assertEquals(false, t == null);
 		t = db.fetchTeacher("xxxx");

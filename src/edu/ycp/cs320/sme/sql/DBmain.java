@@ -173,47 +173,6 @@ public class DBmain implements IDatabase{
 		} 
 		
 	}
-	public static User getUserFromDB(int UserID) 
-			throws SQLException, IOException, ClassNotFoundException{
-		try {
-			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-		} catch (Exception e) {
-			System.err.println("Could not load Derby JDBC driver");
-			System.err.println(e.getMessage());
-			return null;
-		}
-		Connection conn = null;
-		PreparedStatement stmt = null;
-		ResultSet resultSet = null;
-
-		// connect to the database
-		conn = DriverManager.getConnection("jdbc:derby:test.db;create=true");
-		conn.setAutoCommit(true);
-
-		stmt = conn.prepareStatement("select userObject "
-										+ "from users where "
-										+ "UserID = ? ");
-		stmt.setInt(1, UserID);
-		resultSet = stmt.executeQuery();
-		
-		User user = null;
-		if (resultSet.next()){
-			byte[] buf = resultSet.getBytes(1);
-			ObjectInputStream objectIn = null;
-			if (buf != null){
-				objectIn = new ObjectInputStream(new ByteArrayInputStream(buf));
-				user = (User) objectIn.readObject();
-			}
-		}else{
-			System.err.println("User not found via UserID");
-		}
-		DBUtil.closeQuietly(resultSet);
-		DBUtil.closeQuietly(stmt);
-		DBUtil.closeQuietly(conn);
-		
-		return user;
-	}
-	
 	private void createSchedulesJunction() throws IOException, SQLException {
 		executeTransaction(new Transaction<Boolean>(){
 			@Override
@@ -739,6 +698,7 @@ public class DBmain implements IDatabase{
 				Student existing = fetchStudent(null,null,student.getEmail());
 				int uniqueID;
 				
+				//insert/create student if one does not exist
 				if(existing == null){
 					int count = 0;
 					//create a new unique ID and make sure it is not taken
@@ -792,25 +752,46 @@ public class DBmain implements IDatabase{
 					return null;
 				}
 				PreparedStatement courseStmt = null;
+				PreparedStatement courseStmtSkip = null;
 				PreparedStatement scheduleInsert = null;
 				ResultSet CourseRS = null;
+				ResultSet existingRS = null;
 				for(Course c: courses){
+					
 					int coursePK;
 					courseStmt = conn.prepareStatement("select C_Id from courses where CRN = ?");
 					courseStmt.setInt(1, c.getCRN());
 					CourseRS = courseStmt.executeQuery();
+					
+					//if course ID was found via a CRN
 					if(CourseRS.next()){
 						coursePK = CourseRS.getInt(1);
-						scheduleInsert = conn.prepareStatement("insert into schedules (userID,courseID) VALUES (?,?)");
-						scheduleInsert.setInt(1, studentPK);
-						scheduleInsert.setInt(2,coursePK);
-						scheduleInsert.executeUpdate();
+						
+						//skip over duplicates (if the row exists already)
+						courseStmtSkip = conn.prepareStatement("select * from schedules where userID = ? and CourseID = ?");
+						courseStmtSkip.setInt(1, studentPK);
+						courseStmtSkip.setInt(2, coursePK);
+						existingRS = courseStmtSkip.executeQuery();
+						if(!existingRS.next()){
+							
+							scheduleInsert = conn.prepareStatement("INSERT into schedules (UserID,CourseID) "
+																	+ "values (?,?)	" );
+																	
+							scheduleInsert.setInt(1, studentPK);
+							scheduleInsert.setInt(2,coursePK);
+							scheduleInsert.executeUpdate();
+						}
 					}else{
 						;//DO nothing though this shouldn't happen 
 					}
 					
 				}
-	
+				DBUtil.closeQuietly(conn);
+				DBUtil.closeQuietly(resultSet2);
+				DBUtil.closeQuietly(stmt);
+				DBUtil.closeQuietly(stmt2);
+				DBUtil.closeQuietly(stmt3);
+				DBUtil.closeQuietly(resultSet);
 				return true;
 				
 			}
@@ -858,12 +839,16 @@ public class DBmain implements IDatabase{
 					//Student not found
 					return null;
 				}
+				
 				Student s = buildStudent(resultSet, 2);
+				
+				DBUtil.closeQuietly(stmt);
+				DBUtil.closeQuietly(resultSet);
+				
 				//get all student's courses in schedule table
 				PreparedStatement stmt2 = null;
 				ResultSet rs2 = null;
-				//TODO: and users.U_Id = courses.Instructor
-				stmt2 = conn.prepareStatement("select courses.courseObject "
+				stmt2 = conn.prepareStatement("select courses.courseObject, courses.C_Id "
 													+ "from users, schedules, courses where "
 													+ "schedules.userID = ? and schedules.courseID = courses.C_Id and schedules.userID = users.U_Id");
 				stmt2.setInt(1, studentPK);
@@ -871,9 +856,21 @@ public class DBmain implements IDatabase{
 				Schedule schedule = new Schedule();
 				schedule.setName("Default");
 				
+				ResultSet rs3 = null;
+				PreparedStatement stmt3 = null;
+				
 				while(rs2.next()){
 					//credit to: http://javapapers.com/ for method on deSerialize technique
 					byte[] buf = rs2.getBytes(1);
+					int coursePK = rs2.getInt(2);
+					
+					stmt3 = conn.prepareStatement("select users.uniqueID, users.firstName, users.lastName, users.email from "
+													+ "users,schedules,courses where "
+													+ "users.U_Id = schedules.userID and schedules.courseID = ?");
+					stmt3.setInt(1, coursePK);
+					rs3 = stmt3.executeQuery();
+					rs3.next();
+					
 					ObjectInputStream objectIn = null;
 					if (buf != null){
 						try {
@@ -885,7 +882,7 @@ public class DBmain implements IDatabase{
 					Course course;
 					try {
 						course = (Course) objectIn.readObject();
-						//course.setInstructor(buildTeacher(resultSet, 2));
+						course.setInstructor(buildTeacher(rs3, 1));
 						schedule.addCourse(course);
 					} catch (ClassNotFoundException | IOException e) {
 						e.printStackTrace();
@@ -893,6 +890,10 @@ public class DBmain implements IDatabase{
 				}
 				s.addSchedule(schedule);
 				s.setSelectedSchedule(schedule);
+				
+				
+				
+				
 				return s;
 				
 			}

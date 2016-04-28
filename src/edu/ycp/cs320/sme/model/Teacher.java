@@ -1,5 +1,6 @@
 package edu.ycp.cs320.sme.model;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Teacher extends User{
 	//CRN's of the classes they teach
@@ -11,6 +12,9 @@ public class Teacher extends User{
 	
 	public void addClass(Course newClass){
 		this.classList.add(newClass);
+	}
+	public List<Course> getClassList(){
+		return classList;
 	}
 	
 	public void removeClass(int CRN){
