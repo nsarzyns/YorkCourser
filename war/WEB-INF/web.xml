@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+              http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5"
+         xmlns="http://java.sun.com/xml/ns/javaee">
+
+  <!-- Servlets -->
+  <servlet>
+    <servlet-name>StudentView</servlet-name>
+    <servlet-class>edu.ycp.cs320.sme.servlet.SscheduleView</servlet-class>
+  </servlet>
+  
+  <servlet>
+    <servlet-name>OverridePage</servlet-name>
+    <servlet-class>edu.ycp.cs320.sme.servlet.ManageOverrideServlet</servlet-class>
+  </servlet>
+  
+  <servlet>
+    <servlet-name>Index</servlet-name>
+    <servlet-class>edu.ycp.cs320.sme.servlet.IndexServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>StudentEdit</servlet-name>
+    <servlet-class>edu.ycp.cs320.sme.servlet.SscheduleEdit</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>StudentCreate</servlet-name>
+    <servlet-class>edu.ycp.cs320.sme.servlet.SscheduleCreate</servlet-class>
+  </servlet>
+  
+
+  <!-- Servlet mappings -->
+  <servlet-mapping>
+    <servlet-name>OverridePage</servlet-name>
+    <url-pattern>/OverridePage</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>StudentView</servlet-name>
+    <url-pattern>/studentView</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Index</servlet-name>
+    <url-pattern>/index</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>StudentEdit</servlet-name>
+    <url-pattern>/studentEdit</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>StudentCreate</servlet-name>
+    <url-pattern>/studentCreate</url-pattern>
+  </servlet-mapping>
+
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
+</web-app>

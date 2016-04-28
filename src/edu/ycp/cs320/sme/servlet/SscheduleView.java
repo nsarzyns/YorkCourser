@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import edu.ycp.cs320.sme.controller.SscheduleViewControl;
 import edu.ycp.cs320.sme.controller.StudentController;
 import edu.ycp.cs320.sme.model.Course;
 import edu.ycp.cs320.sme.model.Student;

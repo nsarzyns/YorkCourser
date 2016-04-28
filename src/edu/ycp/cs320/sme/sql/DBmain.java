@@ -193,7 +193,8 @@ public class DBmain implements IDatabase{
 				stmt1 = conn.prepareStatement(
 						"create table schedules ( "
 						+ "userID int constraint U_Id references users, "
-						+ "courseID int constraint C_Id references courses )");
+						+ "courseID int constraint C_Id references courses "
+						+ "sch_num int )");
 				stmt1.executeUpdate();
 				return true;
 			}
@@ -425,16 +426,18 @@ public class DBmain implements IDatabase{
 						c.setType(tokens[5]);
 						c.setRoom(tokens[9]);
 						
-						String days = tokens[6];
-						if(days.equalsIgnoreCase("TO BE ARRANGED")){
-							
+						String days = null;
+						String stockDays = tokens[6];
+						if(stockDays.equalsIgnoreCase("TO BE ARRANGED")){
+							days = "To be determined";
 						}else{
-							c.setDay( (days.contains("M")? "M":"\0") ,0);
-							c.setDay( (days.contains("T")? "T":"\0") ,1);
-							c.setDay( (days.contains("W")? "W":"\0") ,2);
-							c.setDay( (days.contains("R")? "R":"\0") ,3);
-							c.setDay( (days.contains("F")? "F":"\0") ,4);
+							days += (stockDays.contains("M")? " Mon. ":"");
+							days +=  (stockDays.contains("T")? " Tues. ":"");
+							days +=  (stockDays.contains("W")? " Wed. ":"");
+							days +=  (stockDays.contains("R")? " Thurs. ":"");
+							days +=  (stockDays.contains("F")? " Fri. ":"");
 						}
+						c.setDays(days);
 						
 						//string value of start and finish time
 						time  = tokens[7];

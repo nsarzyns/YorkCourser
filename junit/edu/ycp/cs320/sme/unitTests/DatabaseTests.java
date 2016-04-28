@@ -40,10 +40,10 @@ public class DatabaseTests {
 		assertEquals(Subject.FYS,c.getSubject() );
 		assertEquals("100.115",c.getCourseNum());
 		assertEquals(true,"RACE JUSTICE AMERICA".equals(c.getTitle()));
-		char[] days = c.getDays();
-		assertEquals(days[0],'M');
-		assertEquals(days[2], 'W');
-		assertEquals(days[6], '\0');
+		String days = c.getDays();
+		assertEquals(true, days.contains("Mon"));
+		assertEquals(false, days.contains("Tues"));
+
 		
 		course = db.queryCourses(3, null, "work");
 		//should contain only one course
@@ -65,10 +65,9 @@ public class DatabaseTests {
 		assertEquals(Subject.FIN,c.getSubject() );
 		assertEquals("310.801",c.getCourseNum());
 		assertEquals(true,"Real Estate Finance".equals(c.getTitle()));
-		char[] days = c.getDays();
-		assertEquals(days[0],'\0');
-		assertEquals(days[1], 'T');
-		assertEquals(days[4], '\0');
+		String days = c.getDays();
+		assertEquals(false, days.contains("Mon"));
+		assertEquals(true, days.contains("Tues"));
 		assertEquals(true,"Gregory, T".equals(c.getInstructor().getName()));
 	
 		//get a course not found in DB

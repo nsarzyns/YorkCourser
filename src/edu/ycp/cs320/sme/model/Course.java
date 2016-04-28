@@ -12,8 +12,7 @@ public class Course implements Serializable{
 	//time <hour(1-24), minute>
 	private int startTimeH,startTimeM;
 	private int finTimeH,finTimeM;
-	//represent days of the week course takes place Mon(0)-Sun(6)
-	private char[] days;
+	private String days;
 	//A must for all courses 
 	private String title;
 	private String courseNum;
@@ -33,7 +32,7 @@ public class Course implements Serializable{
 	private List<Student> pendingOverride = new LinkedList<Student>();
 	
 	public Course(){
-		days = new char[7];
+	
 	}
 	
 	public enum Subject {
@@ -85,7 +84,7 @@ public class Course implements Serializable{
 	public String getTitle() {
 		return title;
 	}
-	public char[] getDays() {
+	public String getDays() {
 		return days;
 	}
 	public String getType () {
@@ -106,13 +105,8 @@ public class Course implements Serializable{
 	public void setStudentOverride(List<Student> sAllowedOverride) {
 		this.sAllowedOverride = sAllowedOverride;
 	}
-	public void setDays(char[] days) {
+	public void setDays(String days) {
 		this.days = days;
-	}
-	public void setDay(String day,int idx) {
-		if(day != null && !day.equals("")){
-			days[idx] = day.charAt(0);
-		}
 	}
 	public void setAdr(int adr){
 		this.adr = adr;

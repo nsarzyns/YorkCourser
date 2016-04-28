@@ -2,17 +2,14 @@ package edu.ycp.cs320.sme.unitTests;
 
 import static org.junit.Assert.*;
 
-import java.io.File;
 
 import org.junit.Test;
 
-import edu.ycp.cs320.sme.controller.SscheduleViewControl;
 import edu.ycp.cs320.sme.controller.StudentController;
-import edu.ycp.cs320.sme.model.Course;
+
 import edu.ycp.cs320.sme.model.Schedule;
 import edu.ycp.cs320.sme.model.Student;
-import edu.ycp.cs320.sme.model.User;
-import edu.ycp.cs320.sme.model.Course.Subject;
+
 
 public class StudentControllerTest {
 	
