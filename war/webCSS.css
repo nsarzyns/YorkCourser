@@ -1,0 +1,59 @@
+/* background-color: yellow; */
+body{
+	font-family: 'Oswald', sans-serif;
+	background-image: url(./Images/Background.jpg); 
+
+	-moz-background-size: cover;
+	-webkit-background-size: cover;
+	background-size: cover;
+	background-position: top center !important;
+	background-repeat: no-repeat !important;
+	background-attachment: fixed;
+
+}
+#parent{
+	display: flex;
+	padding-right: 25px;
+	padding-left: 25px;
+	height: 215px;
+}
+
+
+#view{
+	float: left;
+	width: 45%;
+	
+}
+
+.button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+#create{
+	float: right;
+	width: 45%;
+}
+
+#override{
+	float: right;
+	width: 45%;
+}
+
+#header {
+	 width: 100%; 
+	 padding: 5%;
+}
+
+#logoImage {
+	width:356.25;
+	
+}
