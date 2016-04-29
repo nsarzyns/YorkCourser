@@ -76,5 +76,8 @@ public class Student extends User{
 	public void setTotalCredits(int totalCredits) {
 		this.totalCredits = totalCredits;
 	}
+	public void setScheduleList (LinkedList<Schedule> schedule){
+		this.scheduleList = schedule;
+	}
 	
 }

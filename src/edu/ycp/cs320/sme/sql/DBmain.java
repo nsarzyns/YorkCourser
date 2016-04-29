@@ -193,8 +193,9 @@ public class DBmain implements IDatabase{
 				stmt1 = conn.prepareStatement(
 						"create table schedules ( "
 						+ "userID int constraint U_Id references users, "
-						+ "courseID int constraint C_Id references courses "
-						+ "sch_num int )");
+						+ "courseID int constraint C_Id references courses, "
+						+ "sch_num int, "
+						+ "name varchar(255) )");
 				stmt1.executeUpdate();
 				return true;
 			}
@@ -740,7 +741,11 @@ public class DBmain implements IDatabase{
 				}else{
 					uniqueID = existing.getUniqueID();
 				}
+				
+				//Get student's schedule data
+				List<Schedule> scheduleList = student.getScheduleList();
 				List<Course> courses = student.getSelectedSchedule().getCourseList();
+				int selectedIndex = 0;
 				
 				stmt3 = conn.prepareStatement("select U_Id from users where users.uniqueID = ? and users.isTeacher = 0" );
 				stmt3.setInt(1, uniqueID);
@@ -759,35 +764,44 @@ public class DBmain implements IDatabase{
 				PreparedStatement scheduleInsert = null;
 				ResultSet CourseRS = null;
 				ResultSet existingRS = null;
-				for(Course c: courses){
-					
-					int coursePK;
-					courseStmt = conn.prepareStatement("select C_Id from courses where CRN = ?");
-					courseStmt.setInt(1, c.getCRN());
-					CourseRS = courseStmt.executeQuery();
-					
-					//if course ID was found via a CRN
-					if(CourseRS.next()){
-						coursePK = CourseRS.getInt(1);
+				
+				//Add all classes in entire schedule list to DB - duplicates ignored
+				for(Schedule s: scheduleList){
+					selectedIndex = scheduleList.indexOf(s);
+					courses =  s.getCourseList();
+					for(Course c: courses){
 						
-						//skip over duplicates (if the row exists already)
-						courseStmtSkip = conn.prepareStatement("select * from schedules where userID = ? and CourseID = ?");
-						courseStmtSkip.setInt(1, studentPK);
-						courseStmtSkip.setInt(2, coursePK);
-						existingRS = courseStmtSkip.executeQuery();
-						if(!existingRS.next()){
+						int coursePK;
+						courseStmt = conn.prepareStatement("select C_Id from courses where CRN = ?");
+						courseStmt.setInt(1, c.getCRN());
+						CourseRS = courseStmt.executeQuery();
+						
+						//if course ID was found via a CRN
+						if(CourseRS.next()){
+							coursePK = CourseRS.getInt(1);
 							
-							scheduleInsert = conn.prepareStatement("INSERT into schedules (UserID,CourseID) "
-																	+ "values (?,?)	" );
-																	
-							scheduleInsert.setInt(1, studentPK);
-							scheduleInsert.setInt(2,coursePK);
-							scheduleInsert.executeUpdate();
+							//skip over duplicates (if the row exists already)
+							courseStmtSkip = conn.prepareStatement("select * from schedules where userID = ? and CourseID = ? and sch_num = ? " );
+							courseStmtSkip.setInt(1, studentPK);
+							courseStmtSkip.setInt(2, coursePK);
+							courseStmtSkip.setInt(3, selectedIndex);
+							existingRS = courseStmtSkip.executeQuery();
+							if(!existingRS.next()){
+								
+								scheduleInsert = conn.prepareStatement("INSERT into schedules (UserID,CourseID,sch_num,name) "
+																		+ "values (?,?,?,?)	" );
+																		
+								scheduleInsert.setInt(1, studentPK);
+								scheduleInsert.setInt(2,coursePK);
+								scheduleInsert.setInt(3, selectedIndex);
+								scheduleInsert.setString(4, s.getName());
+								scheduleInsert.executeUpdate();
+							}
+						}else{
+							;//DO nothing though this shouldn't happen 
 						}
-					}else{
-						;//DO nothing though this shouldn't happen 
+						
 					}
-					
 				}
 				DBUtil.closeQuietly(conn);
 				DBUtil.closeQuietly(resultSet2);
@@ -851,21 +865,35 @@ public class DBmain implements IDatabase{
 				//get all student's courses in schedule table
 				PreparedStatement stmt2 = null;
 				ResultSet rs2 = null;
-				stmt2 = conn.prepareStatement("select courses.courseObject, courses.C_Id "
+				stmt2 = conn.prepareStatement("select courses.courseObject, courses.C_Id, schedules.sch_num, schedules.name "
 													+ "from users, schedules, courses where "
 													+ "schedules.userID = ? and schedules.courseID = courses.C_Id and schedules.userID = users.U_Id");
 				stmt2.setInt(1, studentPK);
 				rs2 = stmt2.executeQuery();
-				Schedule schedule = new Schedule();
-				schedule.setName("Default");
+				Schedule SCHcurrent = null;
+				LinkedList<Schedule> studentSCHList= new LinkedList<Schedule>();
 				
 				ResultSet rs3 = null;
 				PreparedStatement stmt3 = null;
-				
 				while(rs2.next()){
 					//credit to: http://javapapers.com/ for method on deSerialize technique
 					byte[] buf = rs2.getBytes(1);
 					int coursePK = rs2.getInt(2);
+					
+					//get schedule number, if bigger than size of schedule list, make a new one using schedule name
+					//Otherwise get that schedule to add a course to it
+					int scheduleIdx = rs2.getInt(3);
+					if(studentSCHList.size()-1 < scheduleIdx ){
+						studentSCHList.add(scheduleIdx, null);
+					}
+					
+					if (studentSCHList.get(scheduleIdx) == null){
+						SCHcurrent = new Schedule();
+						SCHcurrent.setName(rs2.getString(4));
+						studentSCHList.set(scheduleIdx, SCHcurrent);
+					}else{
+						SCHcurrent = studentSCHList.get(scheduleIdx);
+					}
 					
 					stmt3 = conn.prepareStatement("select users.uniqueID, users.firstName, users.lastName, users.email from "
 													+ "users,schedules,courses where "
@@ -886,17 +914,17 @@ public class DBmain implements IDatabase{
 					try {
 						course = (Course) objectIn.readObject();
 						course.setInstructor(buildTeacher(rs3, 1));
-						schedule.addCourse(course);
+						SCHcurrent.addCourse(course);
 					} catch (ClassNotFoundException | IOException e) {
 						e.printStackTrace();
 					}
+					studentSCHList.set(scheduleIdx, SCHcurrent);
 				}
-				s.addSchedule(schedule);
-				s.setSelectedSchedule(schedule);
 				
+				s.setScheduleList(studentSCHList);
+				s.setSelectedSchedule(SCHcurrent);
 				
-				
-				
+
 				return s;
 				
 			}
