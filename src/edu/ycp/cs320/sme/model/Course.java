@@ -13,6 +13,7 @@ public class Course implements Serializable{
 	private int startTimeH,startTimeM;
 	private int finTimeH,finTimeM;
 	private String days;
+	private String timeStr = "";
 	//A must for all courses 
 	private String title;
 	private String courseNum;
@@ -95,6 +96,14 @@ public class Course implements Serializable{
 	}
 	public int getOpenSeat() {
 		return openSeat;
+	}
+	public String getTimeStr() {
+		String result = "";
+		result = startTimeH+ ":" +startTimeM+ " - "+finTimeH+":"+finTimeM; 
+		return result;
+	}
+	public void setTimeStr(String timeStr) {
+		this.timeStr = timeStr;
 	}
 	public void setOpenSeat(int openSeat) {
 		this.openSeat = openSeat;
@@ -180,6 +189,11 @@ public class Course implements Serializable{
 		}
 		
 		return true;
+	}
+	public String time_ToS(){
+		String result = "";
+		result = startTimeH+ ":" +startTimeM+ " - "+finTimeH+":"+finTimeM; 
+		return result;
 	}
 	
 	//comparator using course number and subject
