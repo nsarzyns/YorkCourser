@@ -69,6 +69,7 @@
 	
 		<div id="header">
 			<h1>Search for courses to fit your schedule</h1>
+			<h3> ${Csemester}</h3>
 		</div>
 	
 		<c:if test="${! empty errorMessage}">
@@ -186,6 +187,6 @@
 			</c:if>
 		</c:when>
 		<c:otherwise>
-			<h2>Course added!</h2></c:otherwise>
+			<h2><c:out value="${ AddMessage}"/></h2></c:otherwise>
 		</c:choose>
 	</body>

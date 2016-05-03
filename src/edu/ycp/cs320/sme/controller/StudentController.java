@@ -30,6 +30,7 @@ public class StudentController {
 		//get some BS classes in his schedule
 		Schedule nuSchedule = new Schedule();
 		nuSchedule.setName("Default0");
+		nuSchedule.setSemester("Fall 2016");
 		Course course1 = db.getCourseFromCRN(10143);
 		nuSchedule.addCourse(course1);
 		Course course2 = db.getCourseFromCRN(11309);
@@ -40,9 +41,10 @@ public class StudentController {
 		nuSchedule.addCourse(course4);
 		
 		Schedule nuSchedule2 = new Schedule();
-		nuSchedule.setName("Schedule2");
+		nuSchedule2.setName("Schedule2");
+		nuSchedule2.setSemester("Fall 2016");
 		Course c2_1= db.getCourseFromCRN(10143);
-		nuSchedule.addCourse(c2_1);
+		nuSchedule2.addCourse(c2_1);
 		
 		
 		nuStudent.addSchedule(nuSchedule);

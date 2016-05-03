@@ -78,6 +78,8 @@
 					<td>
 						<select name="semester">
 						  <option value="Fall 2016">Fall 2016</option>
+						  <option value="Summer I">Summer 1</option>
+						  <option value="Summer II">Summer 2</option>
 						</select>
 					</td>
 				</tr>

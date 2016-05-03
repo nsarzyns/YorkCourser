@@ -36,7 +36,7 @@ public class SscheduleEdit extends HttpServlet {
 	  		resp.sendRedirect("./index.html");
 	  		return;
 	  	}
-	  	
+	  	req.setAttribute("Csemester", student.getSelectedSchedule().getSemester());
 	  	//Display edit schedule jsp
 	    req.getRequestDispatcher("/_view/editSchedule.jsp").forward(req, resp);
 }
@@ -69,12 +69,15 @@ protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 	  title = "notNull";
 	  // Param if course has been added
 	  req.setAttribute("done",true);
-	  
+	  req.setAttribute("AddMessage","Course added!");
+	  System.out.println(courseToAdd.getCRN());
 	  if(courseToAdd.available(user)){
 		  //add course to schedule
 		  user.getSelectedSchedule().addCourse(courseToAdd);
 		  db.updateStudent(user);
 		  System.out.println(courseToAdd.getCourseNum() + " added to students schedule");
+	  }else{
+		  req.setAttribute("AddMessage","Course failed to be added to your schedule");
 	  }
 	  req.getRequestDispatcher("/_view/editSchedule.jsp").forward(req, resp);
 	  return;
@@ -92,7 +95,7 @@ protected void doPost(HttpServletRequest req, HttpServletResponse resp)
   if(title == null && crn < 0 && subject == null){
 	  errorMessage = "Give at least one search parameter";
   }else{
-	  courseList= db.queryCourses(crn, tSub, title);
+	  courseList= db.queryCourses(crn, tSub, title, user.getSelectedSchedule().getSemester());
   }
 
   // Add parameters as request attributes
@@ -101,6 +104,9 @@ protected void doPost(HttpServletRequest req, HttpServletResponse resp)
   
   // Add result objects as request attributes
   req.setAttribute("courseList", courseList);
+  
+  // Add semester of current schedule
+  req.setAttribute("Csemester", user.getSelectedSchedule().getSemester());
 
   // Forward to view to render the result HTML document
   req.getRequestDispatcher("/_view/editSchedule.jsp").forward(req, resp);

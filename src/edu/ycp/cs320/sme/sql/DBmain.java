@@ -195,7 +195,8 @@ public class DBmain implements IDatabase{
 						+ "userID int constraint U_Id references users, "
 						+ "courseID int constraint C_Id references courses, "
 						+ "sch_num int, "
-						+ "name varchar(255) )");
+						+ "name varchar(255), "
+						+ "semester varchar(255) )");
 				stmt1.executeUpdate();
 				return true;
 			}
@@ -326,6 +327,62 @@ public class DBmain implements IDatabase{
 			}
 		});
 	}
+	public Boolean removeCourse(final Student student, final int CRN) {
+		return executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException{
+				int selectedIdx = student.getScheduleList().indexOf(student.getSelectedSchedule());
+				int UserID,CourseID;
+				
+				PreparedStatement stmt = null;
+				ResultSet rs1 = null;
+				stmt = conn.prepareStatement("select U_Id from users where users.uniqueID = ? and users.isTeacher = 0" );
+				stmt.setInt(1, student.getUniqueID());
+				rs1 = stmt.executeQuery();
+				
+				//Get PK of student in USERS
+				if (rs1.next()){
+					UserID = rs1.getInt(1);
+				}else{
+					System.err.println("Could not find student<< RemoveCourse- DB");
+					return false;
+				}
+				
+				PreparedStatement stmt2 = null;
+				ResultSet rs2 = null;
+				stmt2 = conn.prepareStatement("select C_Id from courses where courses.CRN = ? " );
+				stmt2.setInt(1, CRN);
+				rs2 = stmt2.executeQuery();
+				
+				if(rs2.next()){
+					CourseID = rs2.getInt(1);
+				}else{
+					System.err.println("Could not find Course element<< RemoveCourse- DB");
+					return false;
+				}
+				
+				PreparedStatement stmt3 = null;
+				stmt3 = conn.prepareStatement("DELETE FROM schedules where "
+												+ " userID = ? and courseID = ? and sch_num = ? " );
+				stmt3.setInt(1, UserID);
+				stmt3.setInt(2, CourseID);
+				stmt3.setInt(3, selectedIdx);
+				
+				stmt3.executeQuery();
+				
+				DBUtil.closeQuietly(rs2);
+				DBUtil.closeQuietly(stmt2);
+				DBUtil.closeQuietly(rs1);
+				DBUtil.closeQuietly(stmt);
+				DBUtil.closeQuietly(stmt3);
+				
+				return true;
+			}
+		});
+	}
+	
+	
+	
 	private void makeCourseTable() throws  SQLException {
 		executeTransaction(new Transaction<Boolean>() {
 			@Override
@@ -413,7 +470,7 @@ public class DBmain implements IDatabase{
 						
 						//10854,FLM,216.101,Intro to Film,3,LEC,M W F,10:00AM- 10:50AM,218,HUM 218,Harlacher J,35,35
 						//Semester-> store in db
-						Semester = "Fall 2016";
+						Semester = tokens[14];
 						//CRN -> store in db
 						CRN = Integer.parseInt(tokens[0]);
 						c.setCRN(CRN);
@@ -541,7 +598,7 @@ public class DBmain implements IDatabase{
 	}
 	
 	@Override
-	public List<Course> queryCourses(final int CRN,final String subject,final String title) {
+	public List<Course> queryCourses(final int CRN,final String subject,final String title, final String Semester) {
 		return executeTransaction(new Transaction<List<Course>>() {
 			@Override
 			public List<Course> execute(Connection conn) throws SQLException {
@@ -562,18 +619,22 @@ public class DBmain implements IDatabase{
 					stmt = conn.prepareStatement("select courseObject, users.uniqueID, users.firstName, users.lastName, users.email  "
 							+ "from courses, users, schedules where "
 							+ "(CRN = ? or "
-							+ "Subject = ? ) and users.U_Id = schedules.userID and schedules.courseID = courses.C_Id");
+							+ "Subject = ? ) and users.U_Id = schedules.userID and schedules.courseID = courses.C_Id "
+							+ "and courses.Semester = ? ");
 					stmt.setInt(1, sCRN);
 					stmt.setString(2, sSubject);
+					stmt.setString(3, Semester);
 				}else{
 					stmt = conn.prepareStatement("select courseObject, users.uniqueID, users.firstName, users.lastName, users.email  "
 											+ "from courses,users, schedules where "
 											+ "(CRN = ? or "
 											+ "Subject = ? or "
-											+ "Title like ? )and users.U_Id = schedules.userID and schedules.courseID = courses.C_Id"	);
+											+ "Title like ? ) and users.U_Id = schedules.userID and schedules.courseID = courses.C_Id and "
+											+ " courses.Semester = ? "	);
 					stmt.setInt(1, sCRN);
 					stmt.setString(2, sSubject);
 					stmt.setString(3, "%" + sTitle + "%");
+					stmt.setString(4, Semester);
 				}
 				
 				resultSet = stmt.executeQuery();
@@ -788,13 +849,14 @@ public class DBmain implements IDatabase{
 							existingRS = courseStmtSkip.executeQuery();
 							if(!existingRS.next()){
 								
-								scheduleInsert = conn.prepareStatement("INSERT into schedules (UserID,CourseID,sch_num,name) "
-																		+ "values (?,?,?,?)	" );
+								scheduleInsert = conn.prepareStatement("INSERT into schedules (UserID,CourseID,sch_num,name,semester) "
+																		+ "values (?,?,?,?,?)	" );
 																		
 								scheduleInsert.setInt(1, studentPK);
 								scheduleInsert.setInt(2,coursePK);
 								scheduleInsert.setInt(3, selectedIndex);
 								scheduleInsert.setString(4, s.getName());
+								scheduleInsert.setString(5, s.getSemester());
 								scheduleInsert.executeUpdate();
 							}
 						}else{
@@ -865,7 +927,7 @@ public class DBmain implements IDatabase{
 				//get all student's courses in schedule table
 				PreparedStatement stmt2 = null;
 				ResultSet rs2 = null;
-				stmt2 = conn.prepareStatement("select courses.courseObject, courses.C_Id, schedules.sch_num, schedules.name "
+				stmt2 = conn.prepareStatement("select courses.courseObject, courses.C_Id, schedules.sch_num, schedules.name, schedules.semester "
 													+ "from users, schedules, courses where "
 													+ "schedules.userID = ? and schedules.courseID = courses.C_Id and schedules.userID = users.U_Id");
 				stmt2.setInt(1, studentPK);
@@ -890,6 +952,7 @@ public class DBmain implements IDatabase{
 					if (studentSCHList.get(scheduleIdx) == null){
 						SCHcurrent = new Schedule();
 						SCHcurrent.setName(rs2.getString(4));
+						SCHcurrent.setSemester(rs2.getString(5));
 						studentSCHList.set(scheduleIdx, SCHcurrent);
 					}else{
 						SCHcurrent = studentSCHList.get(scheduleIdx);
