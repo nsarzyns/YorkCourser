@@ -30,9 +30,13 @@
 	
 	<body>
 	<%@ page import="edu.ycp.cs320.sme.model.Course" %>
+
 		<nav>
 		<div class="nav">
 		<img class="logoImage">
+
+	<jsp:useBean id="Course" class="edu.ycp.cs320.sme.model.Course" scope="page"/>
+
 		<ul id="nav">
 		  <li><a href="studentHome.html">Home</a></li>
 		  <li><a href="studentEdit">Add classes</a></li>
@@ -146,6 +150,9 @@
 					Title: <c:out value="${current.title}"/> <br>
 					CRN: <c:out value="${current.CRN}"/> <br>
 					<c:out value="${current.subject}"/>  <c:out value="${current.courseNum}"/>  <br>
+					<%--   <jsp:useBean id="exam" class="com.example.Exam" scope="page"/> 
+					 <jsp:getProperty name="Course" property="time_ToS"/>--%>
+					<c:out value="${current.timeStr}"/> <br>
 					
 					<form method="POST" action="${pageContext.servletContext.contextPath}/studentEdit">
 					  <input type="hidden" name="added_crn" value="${current.CRN}" />

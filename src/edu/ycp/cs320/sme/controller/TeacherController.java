@@ -1,8 +1,6 @@
 package edu.ycp.cs320.sme.controller;
 
-import edu.ycp.cs320.sme.model.Course;
-import edu.ycp.cs320.sme.model.Schedule;
-import edu.ycp.cs320.sme.model.Student;
+
 import edu.ycp.cs320.sme.model.Teacher;
 import edu.ycp.cs320.sme.sql.DatabaseProvider;
 import edu.ycp.cs320.sme.sql.IDatabase;

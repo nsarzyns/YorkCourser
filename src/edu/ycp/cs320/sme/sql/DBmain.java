@@ -194,7 +194,8 @@ public class DBmain implements IDatabase{
 						"create table schedules ( "
 						+ "userID int constraint U_Id references users, "
 						+ "courseID int constraint C_Id references courses, "
-						+ "sch_num int )");
+						+ "sch_num int, "
+						+ "name varchar(255) )");
 				stmt1.executeUpdate();
 				return true;
 			}

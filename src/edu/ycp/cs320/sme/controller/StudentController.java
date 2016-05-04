@@ -39,7 +39,14 @@ public class StudentController {
 		Course course4 = db.getCourseFromCRN(10011);
 		nuSchedule.addCourse(course4);
 		
+		Schedule nuSchedule2 = new Schedule();
+		nuSchedule.setName("Schedule2");
+		Course c2_1= db.getCourseFromCRN(10143);
+		nuSchedule.addCourse(c2_1);
+		
+		
 		nuStudent.addSchedule(nuSchedule);
+		nuStudent.addSchedule(nuSchedule2);
 		nuStudent.setSelectedSchedule(nuSchedule);
 		db.updateStudent(nuStudent);
 		
