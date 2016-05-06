@@ -41,7 +41,7 @@ public class TscheduleView extends HttpServlet {
 	 private void handleRequest(Teacher teacher, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		 List<Course> courses = null;
 		  if (teacher.getClassList() != null){
-			 // courses = teacher.getSelectedSchedule().getCourseList();
+			  courses = teacher.getClassList();
 		  }
 
 		    // Add result objects as request attributes
@@ -49,7 +49,7 @@ public class TscheduleView extends HttpServlet {
 		    req.setAttribute("courseList", courses);
 
 		    // Forward to view to render the result HTML document
-		    req.getRequestDispatcher("/_view/Teacher.jsp").forward(req, resp);
+		    req.getRequestDispatcher("/_view/TeacherSchedule.jsp").forward(req, resp);
 		
 	}
 	

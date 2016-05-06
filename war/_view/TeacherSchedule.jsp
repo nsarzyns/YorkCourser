@@ -1,9 +1,3 @@
-<%-- --  Parameters
-Get scheudule 
-See how to handle objects
-Pass list of course
-
---%>
 
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -12,45 +6,56 @@ Pass list of course
 <html>
 	<head>
 		<title>View Schedule</title>
-		<link rel="stylesheet" type="text/css" href="./webCSS.css">
+		<link rel="stylesheet" type="text/css" href="webCSS.css">
+		<link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+	<style type="text/css">
+		table, th, td {
+   			border: 1px solid black;
+		}
+		#nav {
+		font-weight: bold;
+	    list-style-type: none;
+	    margin: 0;
+	    padding: 0;
+	    overflow: hidden;
+	    background-color: #5dd34f;
+		}
 		
-	<style type="text/css"></style>
+		li {
+		    float: left;
+		}
+		.active {
+		 	background-color: #41aa4b;
+		}
+		
+		li a {
+		    display: block;
+		    color: white;
+		    text-align: center;
+		    padding: 14px 16px;
+		    text-decoration: none;
+		}
+		
+		li a:hover {
+		    background-color: #3c9531;
+		}
+	</style>
 	</head>
 	
 	<body>
-	<nav>
-		<div class="nav">
-		<img class="logoImage">
+	<div>
 		<ul id="nav">
-		  <li><a href="studentHome.html">Home</a></li>
-		  <li><a href="studentEdit">Add classes</a></li>
-		  <li><a class="active" href="studentView">View your schedule</a></li>
-		  <li><a href="studentCreate">Create new schedule</a></li>
+		  <li><a href="teacherHome.html">Home</a></li>
+		  <li class="logoImage"><img src="./Images/ycplogo_1.png" width="237.5" style="padding-left: 100%" alt=""/></li>
 		</ul>
-		</div>
-		</nav>
-	<div> <p style="font-size:20px">Hello,  ${name}</p> </div>
-	<div>Schedule name: ${scheduleName}
-	<br><br>
-	Select a new schedule to view and edit: 
-			<form method="POST" action="${pageContext.servletContext.contextPath}/studentView" id=changeSch>
-							<select name="schedule" form="changeSch" style="height: 23px; width: 150px; ">
-								<c:forEach items="${nameList}" var="current"> <br>
-									<option value="${current}">${current}</option> 	
-								</c:forEach>
-							</select>
-							<input type="submit" name="submit" value="Select schedule" />
-						</form>
-	<br>						
 	</div>
+	<div> <p style="font-size:20px">Hello,  ${name}</p> </div>
+	<br><br>
+
+	
+	<br>					
 		
-	<table class="course-Table">
-		<%-- <tr>
-			<td class="label">Student ID:</td>
-		</tr>
-		
-		--%>
-		
+	<table>
 		<tr>
 			<c:choose>
 				<c:when test="${! empty courseList}">
@@ -62,7 +67,6 @@ Pass list of course
 					<th class="label">Type</th>
 					<th class="label">Location</th>
 					<th class="label">Days</th>
-					<th class="label">Instructor</th>
 				</c:when>
 			<c:otherwise>
 				<h2>ADD COURSES TO BEGIN</h2></c:otherwise>
@@ -136,15 +140,6 @@ Pass list of course
  						<c:forEach items="${courseList}" var="current">
 						<div class="course"> 
 					<c:out value="${null}"/> 
-						</div>
-							</c:forEach>
-				</c:if>
-			</td>
-			<td>
-				<c:if test="${! empty courseList}">
- 						<c:forEach items="${courseList}" var="current">
-						<div class="course"> 
-					<c:out value="${current.instructor.name}"/> 
 						</div>
 							</c:forEach>
 				</c:if>

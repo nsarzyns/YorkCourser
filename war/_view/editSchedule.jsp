@@ -22,32 +22,6 @@
 			width: 250px;
 			size: 10;
 		}
-		#nav {
-	    list-style-type: none;
-	    margin: 0;
-	    padding: 0;
-	    overflow: hidden;
-	    background-color: #5dd34f;
-		}
-		
-		li {
-		    float: left;
-		}
-		.active {
-		 	background-color: #41aa4b;
-		}
-		
-		li a {
-		    display: block;
-		    color: white;
-		    text-align: center;
-		    padding: 14px 16px;
-		    text-decoration: none;
-		}
-		
-		li a:hover {
-		    background-color: #3c9531;
-		}
 		
 		</style>
 		
@@ -56,16 +30,21 @@
 	
 	<body>
 	<%@ page import="edu.ycp.cs320.sme.model.Course" %>
+
+		<nav>
+		<div class="nav">
+		<img class="logoImage">
+
 	<jsp:useBean id="Course" class="edu.ycp.cs320.sme.model.Course" scope="page"/>
-	<div>
+
 		<ul id="nav">
 		  <li><a href="studentHome.html">Home</a></li>
-		  <li><a class="active" href="studentEdit">Add classes</a></li>
-		  <li><a href="studentView">View your schedule</a></li>
+		  <li><a href="studentEdit">Add classes</a></li>
+		  <li><a class="active" href="studentView">View your schedule</a></li>
 		  <li><a href="studentCreate">Create new schedule</a></li>
-		  <!-- <li><a href="#about">About</a></li> -->
 		</ul>
-	</div>
+		</div>
+		</nav>
 	
 		<div id="header">
 			<h1>Search for courses to fit your schedule</h1>

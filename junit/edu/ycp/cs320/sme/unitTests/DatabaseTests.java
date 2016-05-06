@@ -33,7 +33,7 @@ public class DatabaseTests {
 		
 		IDatabase db = DatabaseProvider.getInstance();
 		//Fall 2016,10015,FYS,100.115,RACE JUSTICE AMERICA,3,LEC,HUM 144,M,,W,,,,,"Levy, Peter"
-		List<Course> course = db.queryCourses(10015, null, null);
+		List<Course> course = db.queryCourses(10015, null, null, "Fall 2016");
 		//should contain only one course
 		Course c = course.get(0);
 		
@@ -45,13 +45,13 @@ public class DatabaseTests {
 		assertEquals(false, days.contains("Tues"));
 
 		
-		course = db.queryCourses(3, null, "work");
+		course = db.queryCourses(3, null, "work", "Fall 2016");
 		//should contain only one course
 		c = course.get(0);
 		System.out.println(c.getTitle() +" "+ c.getInstructor().getName());
 			
 		//bad search returns null
-		List<Course> nullList = db.queryCourses(9, null, null);
+		List<Course> nullList = db.queryCourses(9, null, null, "Fall 2016");
 		assertEquals(nullList, null);
 
 		
