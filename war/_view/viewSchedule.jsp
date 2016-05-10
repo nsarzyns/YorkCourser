@@ -29,10 +29,12 @@ Pass list of course
 		</ul>
 		</div>
 		</nav>
-	<div> <p style="font-size:20px">Hello,  ${name}</p> </div>
-	<div>Schedule name: ${scheduleName}
-	<br><br>
-	Select a new schedule to view and edit: 
+		
+		
+	<div> <p class="text-stroke-175">Hello,  ${name}</p> </div>
+	<div><p class="text-stroke-125">Schedule name: ${scheduleName}</p>
+	<br>
+	<p class="text-stroke-125"> Select a new schedule to view and edit:</p>
 			<form method="POST" action="${pageContext.servletContext.contextPath}/studentView" id=changeSch>
 							<select name="schedule" form="changeSch" style="height: 23px; width: 150px; ">
 								<c:forEach items="${nameList}" var="current"> <br>
@@ -41,8 +43,8 @@ Pass list of course
 							</select>
 							<input type="submit" name="submit" value="Select schedule" />
 						</form>
-	<br>						
-	</div>
+		<br>
+		</div>
 		
 	<table class="course-Table">
 		<%-- <tr>

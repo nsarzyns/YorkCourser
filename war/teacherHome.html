@@ -3,35 +3,6 @@
 <html>
 <head>
 <!-- Color pallete http://www.color-hex.com/color-palette/14304 -->
-<style>
-	
-	#nav {
-	    list-style-type: none;
-	    margin: 0;
-	    padding: 0;
-	    overflow: hidden;
-	    background-color: #5dd34f;
-	}
-	
-	li {
-	    float: left;
-	}
-	.active {
-	 	background-color: #41aa4b;
-	}
-	
-	li a {
-	    display: block;
-	    color: white;
-	    text-align: center;
-	    padding: 14px 16px;
-	    text-decoration: none;
-	}
-	
-	li a:hover {
-	    background-color: #3c9531;
-	}
-</style>
 
 <title>York Scheduler</title>
 <link rel="stylesheet" type="text/css" href="webCSS.css">
@@ -50,17 +21,14 @@
 	</ul>
 </div> -->
 
-<div id="header">
-<h1>Teacher Side of Scheduler</h1>
+<div id="header" style="text-align:center">
+<h1 class="justTextStroke" style="text-align:center; font-size:300%">Teacher Side of Scheduler</h1>
 </div>
 
-<div id="parent">
-  <div id="override"><h3>Override Students Course</h3><br>
-  	<input type="button" class="button" value="New Schedule"  onclick="location.href='OverridePage';"></input>
-  </div>
-  
-  <div id="view"><h3>View Daily Course Layout</h3><br>
-  	<input type="button" class="button" value="View Schedule"  onclick="location.href='teacherView';"></input>
+<div id="parent-1" style="text-align:center; font-size:150%; margin: 0px auto;">
+
+  <div id="view-1"><h3>View Daily Course Layout</h3><br>
+  	<input style="text-align:center" class="btn btn-primary btn-lg btn-hover btn-opac" type="button" class="button" value="View Schedule"  onclick="location.href='teacherView';"></input>
   </div>
 </div>
 

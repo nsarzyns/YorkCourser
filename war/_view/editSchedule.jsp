@@ -7,25 +7,8 @@
 		<title>Add Courses</title>
 		<link rel="stylesheet" type="text/css" href="webCSS.css">
 		
-		<style type="text/css">
-		body{
-			margin-left: 25px;
-		}
-		 .error {
-			 color: red;
-		}
+		<style type="text/css"></style>
 		
-		 .course {
-			background-color: #66CCFF;
-			padding: 15px;
-			border-style: groove;
-			width: 250px;
-			size: 10;
-		}
-		
-		</style>
-		
-		<link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
 	</head>
 	
 	<body>
@@ -34,9 +17,7 @@
 		<nav>
 		<div class="nav">
 		<img class="logoImage">
-
-	<jsp:useBean id="Course" class="edu.ycp.cs320.sme.model.Course" scope="page"/>
-
+			<jsp:useBean id="Course" class="edu.ycp.cs320.sme.model.Course" scope="page"/>
 		<ul id="nav">
 		  <li><a href="studentHome.html">Home</a></li>
 		  <li><a href="studentEdit">Add classes</a></li>
@@ -47,15 +28,15 @@
 		</nav>
 	
 		<div id="header">
-			<h1>Search for courses to fit your schedule</h1>
-			<h3> ${Csemester}</h3>
+			<h1 class="justTextStroke">Search for courses to fit your schedule</h1>
+			<h3 class="justTextStroke" style="font-size:150%"> ${Csemester}</h3>
 		</div>
 	
 		<c:if test="${! empty errorMessage}">
-			<div class="error">${errorMessage}</div>
+			<div class="error-1">${errorMessage}</div>
 		</c:if>
 			<form action="${pageContext.servletContext.contextPath}/studentEdit" method="post" id="search">
-				<table>
+				<table class="justWhite">
 					<tr>
 						<td class="label">Course name:</td>
 						<td><input type="text" name="title" size="12" value="${title}" /></td>
@@ -147,7 +128,7 @@
 		<c:when test = "${ empty done}">
 			<c:if test="${! empty courseList}">
 			  <c:forEach items="${courseList}" var="current">
-				<div class="course"> 
+				<div class="course-1"> 
 					Title: <c:out value="${current.title}"/> <br>
 					CRN: <c:out value="${current.CRN}"/> <br>
 					<c:out value="${current.subject}"/>  <c:out value="${current.courseNum}"/>  <br>

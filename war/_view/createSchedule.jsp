@@ -7,31 +7,14 @@
 		<title>Create a new schedule option</title>
 		<link rel="stylesheet" type="text/css" href="webCSS.css">
 		<link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
-		<style type="text/css">
-		
-			body{
-				margin-left: 25px;
-			}
-			 .error {
-				 color: red;
-			}
-			
-			 .course {
-				background-color: #66CCFF;
-				padding: 15px;
-				border-style: groove;
-				width: 250px;
-				size: 10;
-			}
-		  
-			
-		</style>
+		<style type="text/css"></style>
 	</head>
 	<body>
 	
 		<nav>
 		<div class="nav">
 		<img class="logoImage">
+			<jsp:useBean id="Course" class="edu.ycp.cs320.sme.model.Course" scope="page"/>
 		<ul id="nav">
 		  <li><a href="studentHome.html">Home</a></li>
 		  <li><a href="studentEdit">Add classes</a></li>

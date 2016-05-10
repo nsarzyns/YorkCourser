@@ -12,16 +12,27 @@ body{
     overflow-x: hidden;
 }
 
-#parent{
+#parent-1{
 	display: flex;
 	padding-right: 25px;
 	padding-left: 25px;
 	height: 215px;
 }
 
+#parent-1{
+	display: flex;
+	height: 215px;
+}
+
 
 #view{
 	float: left;
+	width: 45%;
+	
+}
+
+#view-1{
+	margin: 0 auto;
 	width: 45%;
 	
 }
@@ -78,6 +89,16 @@ table, th, td {
 	
 	-webkit-text-stroke: .5px white;
 }
+
+.selection {
+	margin-left: auto;
+	margin-right: auto;
+	border-collapse: collapse;
+}
+.nothing tr {
+   border:none;
+   outline:none;
+}
 		
 		
 .btn {
@@ -133,4 +154,40 @@ table, th, td {
 .override{
 	float: right;
 	width: 45%;
+}
+
+.text-stroke-175 {
+	font-size: 175%;
+	-webkit-text-fill-color: white;
+}
+
+.text-stroke-125 {
+	font-size: 150%;
+	-webkit-text-fill-color: white;
+}
+
+.text-stroke-125 {
+	font-size: 150%;
+	-webkit-text-fill-color: white;
+}
+
+		 .error-1 {
+			 color: red;
+		}
+		
+		 .course-1 {
+			background-color: white;
+			padding: 15px;
+			border-style: groove;
+			width: 250px;
+			size: 10;
+			
+		}
+
+.justTextStroke {
+	-webkit-text-fill-color: white;
+}
+
+.justWhite {
+	color: white;
 }
